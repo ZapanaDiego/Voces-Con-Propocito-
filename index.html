@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="es" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Voces con Propósito - Arequipa 2026</title>
+
+    <link rel="icon" type="image/x-icon" href="./logos/logo.jpg">
+    
+    <!-- Fuentes tipográficas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,600;1,400;1,700&display=swap" rel="stylesheet">
+
+    <!-- Estilos CSS -->
+    <style>
+        /* --- VARIABLES GLOBALES --- */
+        :root {
+            --azul: #2d3983;
+            --rojo: #b90730;
+            --negro: #060606;
+            --blanco: #f9f9f9;
+            --gris: #888888;
+            --papel: #f4f1ea;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--papel);
+            color: var(--negro);
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        /* --- PRELOADER CINEMÁTICO --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--azul); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .misti-loader-wrapper {
+            position: relative; width: 360px; height: 360px;
+            overflow: hidden; border-radius: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .misti-loader-img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.2); filter: grayscale(20%) contrast(1.1); }
+        .loader-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; color: var(--blanco); position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); white-space: nowrap; opacity: 0; text-shadow: 0 5px 15px rgba(0,0,0,0.8); color: #060606;}
+
+        #smooth-wrapper { width: 100%; overflow: hidden; position: relative; z-index: 2; background: var(--papel); }
+        
+        .footer-reveal {
+            position: fixed; top: 15px; bottom: 0; left: 0; width: 100%; height: 350px;
+            background-color: var(--negro); color: var(--blanco); z-index: 1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;
+        }
+        #smooth-content { margin-bottom: 350px; }
+
+        /* --- 1. HERO SECTION --- */
+        .hero {
+            position: relative; height: 100vh; width: 100vw;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background-color: var(--negro);
+        }
+
+        .hero-layer { position: absolute; left: 0; width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+        .layer-bg { top: 0; z-index: 1; opacity: 0.7; }
+        
+        .layer-text-2026 {
+            z-index: 10;
+            position: absolute;
+            font-size: 20vw; 
+            font-weight: 900; color: rgba(255, 255, 255, 0.95);
+            top: 5%; 
+            left: 50%; transform: translateX(-50%);
+            white-space: nowrap; letter-spacing: -5px;
+            text-shadow: 0 10px 50px rgba(0,0,0,0.9);
+        }
+        
+        .layer-fg {
+            bottom: -15%; top: auto; height: 110%; z-index: 3;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 20%, black 60%);
+            mask-image: linear-gradient(to bottom, transparent 20%, black 60%);
+        }
+
+        .hero-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.9) 100%); z-index: 4; pointer-events: none; }
+        .hero-content { position: relative; z-index: 5; text-align: center; padding: 0 20px; will-change: transform; margin-top: 10vh; }
+        .hero h1 { font-size: 3.5rem; font-weight: 900; line-height: 0.9; text-transform: uppercase; color: var(--blanco); margin-bottom: 15px; text-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+        .hero h1 span { color: var(--rojo); display: block; }
+        .hero h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: #ddd; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+
+        /* --- 2. SECCIÓN CANDIDATOS --- */
+        .candidatos-container { height: 100vh; width: 100vw; overflow: hidden; position: relative; background-color: var(--negro); }
+        .candidatos-track { display: flex; height: 100%; width: auto; will-change: transform; }
+        
+        /* Modificado: Flex-shrink para evitar que se aprieten si hay más de 2 candidatos */
+        .candidato-panel { flex-shrink: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+        .candidato-img-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+        .candidato-img-wrapper::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(6,6,6,1) 0%, rgba(6,6,6,0.6) 40%, rgba(6,6,6,0.1) 100%);
+            z-index: 10; pointer-events: none;
+        }
+
+        .cand-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; will-change: transform, opacity; opacity: 0; transform: scale(1.15); z-index: 1; }
+        .cand-img:first-child { opacity: 1; transform: scale(1); z-index: 2; }
+
+        .candidato-info { position: relative; z-index: 15; margin-top: auto; padding: 30px 20px 60px 20px; color: var(--blanco); }
+        .candidato-numero { font-family: 'Playfair Display', serif; font-size: 3rem; font-style: italic; color: var(--rojo); line-height: 1; margin-bottom: 8px; display: block; opacity: 0.9; }
+        .partido-chip { display: inline-block; background: var(--azul); color: var(--blanco); padding: 6px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; white-space: normal; }
+        .candidato-info h3 { font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; line-height: 1.1; }
+        .candidato-desc { font-size: 0.95rem; line-height: 1.5; color: rgba(255,255,255,0.85); max-width: 600px; }
+
+        .progress-bar-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: rgba(255,255,255,0.1); z-index: 20; }
+        .progress-bar-fill { height: 100%; width: 0%; background: var(--rojo); transition: width 0.1s; }
+
+        .swipe-indicator { position: absolute; bottom: 20px; right: 20px; z-index: 20; color: var(--blanco); display: flex; align-items: center; gap: 10px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: translateX(0); } 50% { transform: translateX(8px); } 100% { transform: translateX(0); } }
+
+        /* --- 3. CRONOGRAMA --- */
+        .cronograma-wrapper { padding: 100px 20px; position: relative; background: var(--papel); --mouse-x: 50%; --mouse-y: 50%; }
+        .cronograma-wrapper::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle 400px at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.8), transparent 80%); pointer-events: none; z-index: 0; }
+        .titulo-seccion { font-size: 2.5rem; font-weight: 900; color: var(--azul); text-align: center; margin-bottom: 60px; text-transform: uppercase; position: relative; z-index: 1;}
+        .timeline-container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1;}
+        .linea-dibujada { position: absolute; left: 20px; top: 0; width: 4px; height: 0%; background: linear-gradient(to bottom, var(--azul), var(--rojo)); border-radius: 2px; z-index: 1; }
+        
+        /* NUEVO DISEÑO: Eliminamos opacity: 0 y transform para no romper GSAP ScrollTrigger */
+        .evento-bloque { position: relative; margin-bottom: 120px; padding-left: 55px; }
+        
+        .evento-sticky-container { position: relative; width: 100%; }
+
+        /* Punto animado */
+        .evento-punto { position: absolute; left: -47px; top: 10px; width: 28px; height: 28px; background: var(--blanco); border: 6px solid var(--azul); border-radius: 50%; z-index: 2; transform: scale(0); }
+        .evento-bloque:nth-child(even) .evento-punto { border-color: var(--rojo); }
+        
+        .evento-header { display: flex; align-items: baseline; gap: 15px; margin-bottom: 20px; }
+        .evento-hora { font-size: 1.8rem; font-weight: 900; color: var(--rojo); font-family: 'Playfair Display', serif; }
+        .evento-bloque:nth-child(odd) .evento-hora { color: var(--azul); }
+        .evento-titulo { font-size: 1.4rem; font-weight: 700; color: var(--negro); }
+        
+        /* GRID DE CONTENIDO (Texto y Galería separados) */
+        .evento-contenido-grid { display: flex; flex-direction: column; gap: 30px; position: relative; }
+
+        /* TEXTO (Caja separada) */
+        .evento-detalles { 
+            background: rgba(255,255,255,0.9); border-radius: 15px; padding: 25px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.02); 
+            position: relative; backdrop-filter: blur(5px); height: fit-content; z-index: 3;
+        }
+        .evento-detalles::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--azul); border-top-left-radius: 15px; border-bottom-left-radius: 15px; }
+        .evento-bloque:nth-child(even) .evento-detalles::before { background: var(--rojo); }
+        
+        .evento-detalles p{
+            padding: auto;
+            text-decoration: none;
+            font-size: small;
+            margin: 0 0 15px 0;
+        }
+
+        .evento-texto { display: flex; flex-direction: column; gap: 15px; }
+        .sub-evento { padding-bottom: 12px; border-bottom: 1px dashed rgba(136,136,136,0.3); color: var(--gris); line-height: 1.5; font-size: 0.95rem;}
+        .sub-evento:last-child { padding-bottom: 0; border-bottom: none; }
+        .sub-hora { font-weight: 700; color: var(--negro); }
+
+        /* --- GALERÍA PINEADA --- */
+        .evento-galeria { 
+            position: relative; 
+            width: 100%; 
+            height: 450px; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow: none; /* Quitamos la sombra para que no se vea el recuadro invisible */
+            background: transparent !important; /* Fondo 100% transparente */
+        }
+
+        .g-img { 
+            position: absolute; 
+            inset: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-size: contain; /* Para que la silueta entre completa sin deformarse */
+            background-repeat: no-repeat; /* Evita que la silueta se repita en mosaico */
+            background-position: center; 
+            background-color: transparent;
+        }
+        .g-img { 
+            position: absolute; 
+            inset: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-size: cover; 
+            background-position: center; 
+        }
+
+        /* La primera siempre visible */
+        .img-thanos { opacity: 1; } 
+
+        /* Cortes para el Efecto Thanos / Ruptura (Corte exacto para PNGs) */
+        .corte {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: contain; 
+            background-repeat: no-repeat;
+            background-position: center;
+            will-change: transform, opacity;
+        }
+        /* Corte diagonal limpio: mitad superior y mitad inferior */
+        .corte-1 { clip-path: polygon(0 0, 100% 0, 100% 40%, 0 60%); }
+        .corte-2 { clip-path: polygon(0 60%, 100% 40%, 100% 100%, 0 100%); }
+
+        .footer-logo { font-size: 2rem; font-weight: 900; color: var(--blanco); margin-bottom: 10px; text-transform: uppercase;}
+        .footer-logo span { color: var(--rojo); }
+        .footer-text { font-family: 'Playfair Display', serif; color: var(--gris); font-style: italic; }
+
+        /* --- RESPONSIVE --- */
+        @media (min-width: 380px) {
+            .hero h1 { font-size: 3.8rem !important; top: 0; position: relative;} .hero h2 { font-size: 2.2rem !important; position: relative; top: -50;}
+            .candidato-numero { font-size: 3.5rem; } .candidato-info h3 { font-size: 2.5rem; }
+            .candidato-desc { font-size: 1.05rem; } .evento-hora { font-size: 2.2rem; }
+        }
+        @media (min-width: 700px) {
+            .hero h1 { font-size: 6.5rem; }
+            .layer-text-2026 { font-size: 14vw; top: 8%; } 
+            
+            .candidato-panel { flex-direction: row; align-items: center; }
+            .candidato-img-wrapper { position: relative; width: 50%; height: 100%; order: 2; }
+            .candidato-img-wrapper::after { display: none; }
+            .candidato-info { width: 50%; padding: 60px; order: 1; margin-top: 0; }
+            
+            .timeline-container { padding-left: 50%; } 
+            .linea-dibujada { left: 50%; margin-left: -2px; }
+            
+            .evento-bloque { width: 100%; padding-left: 50px; }
+            .evento-bloque:nth-child(odd) { left: -100%; padding-left: 0; padding-right: 50px; text-align: right; }
+            .evento-punto { left: -64px; } 
+            .evento-bloque:nth-child(odd) .evento-punto { left: auto; right: -64px; }
+            
+            .evento-bloque:nth-child(odd) .evento-header { justify-content: flex-end; flex-direction: row-reverse; }
+            .evento-bloque:nth-child(odd) .evento-detalles::before { left: auto; right: 0; border-radius: 0; border-top-right-radius: 15px; border-bottom-right-radius: 15px;}
+            
+            /* Layout PC: Imágenes Sticky, texto scrolleable. MUY FLUIDO. */
+            .evento-contenido-grid {
+                flex-direction: row;
+                align-items: flex-start; /* CRÍTICO: Permite que el 'sticky' funcione */
+                gap: 40px;
+                min-height: 50vh; /* Da espacio para hacer scroll a la caja */
+            }
+            .evento-bloque:nth-child(odd) .evento-contenido-grid {
+                flex-direction: row-reverse;
+            }
+            .evento-detalles { width: 55%; }
+            .evento-bloque:nth-child(odd) .evento-texto { text-align: right; }
+            
+            .evento-galeria { 
+                width: 45%; 
+                height: 400px; /* Tamaño fijo para la imagen PNG */
+                position: sticky; /* EFECTO FLUIDO NATIVO, no usamos pin de JS */
+                top: 25vh; /* Se queda pegado a esta altura de la pantalla */
+            }
+
+            .footer-reveal { height: 400px; } #smooth-content { margin-bottom: 400px; }
+        }
+
+        @media (min-width: 300px) {
+            .hero h1 { font-size: 3rem; } .hero h2 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+    <div class="misti-loader-wrapper">
+        <img src="./logos/logo.jpg" alt="Volcán Misti" class="misti-loader-img">
+    </div>
+    <div class="loader-logo">Voces con Propósito</div>
+</div>
+
+<div id="smooth-wrapper">
+    <div id="smooth-content">
+
+        <!-- 1. HERO SECTION -->
+        <section class="hero" id="hero">
+            <img src="./logos/catedral1.png" alt="Fondo" class="hero-layer layer-bg" id="hero-bg">
+            <div class="layer-text-2026" id="hero-2026">2026</div>
+            <img src="./logos/pexels-sbenavides-17043608.jpg" alt="Frente" class="hero-layer layer-fg" id="hero-fg">
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content" id="hero-title">
+                <h1>Voces con<br><span>Propósito</span></h1>
+                <h2>El gran debate de Arequipa</h2>
+            </div>
+        </section>
+
+        <!-- 2. SECCIÓN CANDIDATOS -->
+        <section class="candidatos-container" id="candidatos-pin">
+            <div class="candidatos-track" id="candidatos-track">
+                
+                <!-- COMENTARIO:
+                ========================================================
+                 ▶ PASO 1: PARA AGREGAR UN CANDIDATO COPIA DESDE AQUÍ 
+                ======================================================== -->
+                <div class="candidato-panel">
+                    <div class="candidato-img-wrapper">
+                        <!-- Puedes agregar 2 o más fotos. La animación las transiciona solas. -->
+                        <img src="./Jose-Augusto-Jhonadan-Zevallos-Banda/DSC_6417-Jose Zevallos.jpg" alt="Foto 1" class="cand-img">
+                        <img src="./Jose-Augusto-Jhonadan-Zevallos-Banda/jose.jpeg" alt="Foto 2" class="cand-img">
+                    </div>
+                    <div class="candidato-info">
+                        <span class="candidato-numero">01</span>
+                        <span class="partido-chip" style="background-color: #28b227;">Progresemos</span>
+                        <h3>Jose Augusto Jhonadan Zevallos Banda</h3>
+                        <p class="candidato-desc">Licenciado en Filosofía, Maestro en Gestión y Políticas Públicas, y Bachiller en Administración. Destaca por su versatilidad, al combinar su labor como docente universitario con una sólida trayectoria como especialista y asesor en gestión pública. Cuenta con experiencia liderando áreas de logística, abastecimiento y administración en diversas entidades gubernamentales.</p>
+                    </div>
+                </div>
+                <!-- ◀ HASTA AQUÍ. Pega el nuevo debajo. -->
+
+
+                <!-- Candidato 2 -->
+                <div class="candidato-panel">
+                    <div class="candidato-img-wrapper">
+                        <img src="./RenzoAndreEstradaHuerta/RENZOFOTO(2).png" alt="Foto 1" class="cand-img">
+                        <img src="./RenzoAndreEstradaHuerta/downloadgram.org_641960580_18350837788239311_3031344902481833866_n.webp" alt="Foto 2" class="cand-img">
+                        <img src="./RenzoAndreEstradaHuerta/SaveClip.App_649211090_18351819835239311_7015406789135370212_n.jpg" alt="Foto 3" class="cand-img">
+                    </div>
+                    <div class="candidato-info">
+                        <span class="candidato-numero">02</span>
+                        <span class="partido-chip" style="background-color: #144093;">Avanza País </span>
+                        <h3>Renzo Andre Estrada Huerta </h3>
+                        <p class="candidato-desc">Licenciado en Derecho, líder político arequipeño y candidato a la Cámara de Diputados por Avanza País con el número 1 por Arequipa. Fundador del Frente Demócrata Arequipa y de la asociación Libertad Perú, promueve la participación ciudadana y el liderazgo juvenil. Reconocido como Parlamentario Joven del Bicentenario, impulsa una agenda en favor de la poblacion.</p>
+                    </div>
+                </div>
+
+                <!-- Candidato 3 (Ejemplo añadido para que veas que funciona dinámicamente) -->
+                <div class="candidato-panel">
+                    <div class="candidato-img-wrapper">
+                        <img src="./HansArthurGodoyQuispe/IMG_1853-HansGodoyQuispe.jpg" alt="Foto 1" class="cand-img">
+                    </div>
+                    <div class="candidato-info">
+                        <span class="candidato-numero">03</span>
+                        <span class="partido-chip" style="background-color: #ea0808">Perú Libre </span>
+                        <h3>Hans Arthur Godoy Quispe </h3>
+                        <p class="candidato-desc">Hijo de migrantes, crecí en PPJJ Augusto Freyre de Hunter sin agua, luz, estudie derecho en la UNSA, maestría en Derecho Civil, especialista en derecho registral y notarial, microempresario en un emprendimiento familiar "Restaurant El Arado". Luchador social presente en la defensa de las causas justas, defendiendo el Valle de Tambo, por una Nueva Constitución, contra la usurpadora Boluarte y otro</p>
+                    </div>
+                </div>
+                <!-- Si deseas agregar 3 más (hasta tener 6), simplemente sigue pegando cajas <div class="candidato-panel">...</div> aquí dentro. El Javascript detectará automáticamente cuántos hay. -->
+                <div class="candidato-panel">
+                    <div class="candidato-img-wrapper">
+                        <img src="./DanielErnestoVeraBallón/images_upscayl_2x_high-fidelity-4x.png" alt="Foto 1" class="cand-img">
+                        <img src="./DanielErnestoVeraBallón/images.webp" alt="Foto 2" class="cand-img">
+                    </div>
+                    <div class="candidato-info">
+                        <span class="candidato-numero">04</span>
+                        <span class="partido-chip" style="background-color: #ea0808">APRA </span>
+                        <h3>Daniel Ernesto Vera Ballón </h3>
+                        <p class="candidato-desc">Ingeniero y político peruano. Fue el primer presidente regional de Arequipa (2003–2006) y diputado nacional (1990–1992). Actualmente es candidato a la Cámara de Diputados por Arequipa en las elecciones de 2026 y promueve proyectos estratégicos como el puerto de Corío para el desarrollo económico del sur, impulsando también la descentralización y la inversión regional.</p>
+                    </div>
+                </div>
+
+                <div class="candidato-panel">
+                    <div class="candidato-img-wrapper">
+                        <img src="./ChristianAranda/ChristianAranda.png" alt="Foto 1" class="cand-img">
+                        <img src="./ChristianAranda/downloadgram.org_643552407_18315034270266917_7164295721111718998_n.jpg" alt="Foto 2" class="cand-img">
+                        <img src="./ChristianAranda/downloadgram.org_643582152_18315034135266917_7544977714655297635_n.jpg" alt="Foto 3" class="cand-img">
+                    </div>
+                    <div class="candidato-info">
+                        <span class="candidato-numero">05</span>
+                        <span class="partido-chip" style="background-color: #0b76a0">Renovación Popular</span>
+                        <h3>Christian Aranda</h3>
+                        <p class="candidato-desc">Político y emprendedor arequipeño. Estudió derecho en la Universidad La Salle. Maestría en gestión pública y políticas públicas en la Universidad San Pablo. Especializado en comunicación política y competencias políticas por la Fundación Konrad Adenahuer, Andrés Bello, American University y Political Notwork for Values. Presidente del Centro de Pensamiento Laureles.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="progress-bar-container"><div class="progress-bar-fill" id="candidato-progress"></div></div>
+            <div class="swipe-indicator">Scroll / Swipe <span>→</span></div>
+        </section>
+
+        <!-- 3. CRONOGRAMA MINUTO A MINUTO -->
+        <section class="cronograma-wrapper" id="cronograma">
+            <h2 class="titulo-seccion">Cronograma Operativo del Evento (Run of Show)</h2>
+            
+            <div class="timeline-container">
+                <div class="linea-dibujada" id="linea-centro"></div>
+
+                <!-- COMENTARIO:
+                ========================================================
+                 ▶ PASO 2: PARA AGREGAR UN EVENTO COPIA DESDE AQUÍ 
+                ======================================================== -->
+                <!-- BLOQUE 1: APERTURA -->
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div> <!-- El puntito de la línea -->
+                        
+                        <!-- Encabezado del Evento -->
+                        <div class="evento-header">
+                            <span class="evento-hora">5:00 PM</span>
+                            <h3 class="evento-titulo">Apertura Oficial</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            
+                            <!-- Columna 1: El Texto y Horarios -->
+                            <div class="evento-detalles">
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">5:00</span> (2 min)<br>Bienvenida y presentación del evento, propósito y neutralidad.</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:02</span> (3 min)<br>Explicación del formato de rondas y presentación de los moderadores.</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:10</span> (15 min)<br><strong>Presentación Individual:</strong> 1 min para cada uno de los candidatos.</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Columna 2: Las Imágenes PNG (Animadas) -->
+                            <div class="evento-galeria">
+                                
+                                <!-- Img 1: Efecto Romperse (Thanos). USA UNA IMAGEN PNG SIN FONDO -->
+                                <!-- Cambia la URL por tu imagen PNG -->
+                                <div class="g-img img-thanos">
+                                    <!-- Aquí se hace la magia: dos pedazos de la misma imagen -->
+                                    <div class="corte corte-1" style="background-image: url('./Columna1/istockphoto-2019979263-612x612.jpg');"></div>
+                                    <div class="corte corte-2" style="background-image: url('./Columna1/istockphoto-2019979263-612x612.jpg');"></div>
+                                </div>
+
+                                <!-- Img 2: Aparece haciendo Zoom. USA OTRA IMAGEN PNG -->
+                                <div class="g-img img-zoom" style="background-image: url(./Columna1/JMWBQX64V5GCXCRXXMRCDJRKSU.jpg);"></div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ◀ HASTA AQUÍ EL EVENTO 1. -->
+
+
+                <!-- BLOQUE 2: JUSTICIA Y SEGURIDAD -->
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div>
+                        <div class="evento-header">
+                            <span class="evento-hora">5:25 PM</span>
+                            <h3 class="evento-titulo">Bloque 1: Seguridad, justicia y lucha contra la corrupción</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            <div class="evento-detalles">
+                                <p>
+                                    ¿Qué dos acciones concretas impulsará desde el Congreso para mejorar la seguridad ciudadana en Arequipa (extorsión, sicariato, crimen organizado) y cómo medirá los resultados de esas acciones?
+                                </p>
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">5:25</span> (5 min)<br>Ronda de postura (30 seg c/u). Orden: C1 a C10</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:30</span> (7 min)<br>Ronda de propuesta (45 seg c/u). Mismo orden: C1 a C10.</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:38</span> (2 min)<br>Réplicas (hasta 2). Cada réplica: 30 seg + 30 seg respuesta..</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:40</span> (1 min)<br>Cierre breve de la pregunta y transición..</div>
+                                </div>
+                            </div>
+
+                            <div class="evento-galeria">
+                                <!-- Efecto Thanos -->
+                                <div class="g-img img-thanos">
+                                    <div class="corte corte-1" style="background-image: url('./Columna1/Que-es-el-crimen-organizado-en-el-Peru2.jpg');"></div>
+                                    <div class="corte corte-2" style="background-image: url('./Columna1/Que-es-el-crimen-organizado-en-el-Peru2.jpg');"></div>
+                                </div>
+                                <div class="g-img img-zoom" style="background-image: url('./Columna1/delincuencia-e1551195045228.jpg');"></div>
+                                
+                                <!-- Img 3: Aparece Deslizando (Slide). USA OTRA IMAGEN PNG -->
+                                <div class="g-img img-slide" style="background-image: url('./Columna1/inseguridad_lima.jpg');"></div>
+                                <!-- Efecto Zoom -->
+                                <div class="g-img img-zoom" style="background-image: url('./Columna1/two-businessmen-facing-off-boxers-260nw-2510223241.webp');"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOQUE 2: JUSTICIA Y SEGURIDAD -->
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div>
+                        <div class="evento-header">
+                            <h3 class="evento-titulo">Seguridad, justicia y lucha contra la corrupción</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            <div class="evento-detalles">
+                                <p>
+                                    ¿Qué propuesta priorizará para reducir la corrupción en la contratación pública y fortalecer la fiscalización, garantizando que no se politice ni se debilite la lucha anticorrupción?
+                                </p>
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">5:41</span> (5 min)<br>Ronda de postura (30 seg c/u). Orden: C1 a C10</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:46</span> (7 min)<br>Ronda de propuesta (45 seg c/u). Mismo orden: C1 a C10.</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:54</span> (2 min)<br>Réplicas (hasta 2). Cada réplica: 30 seg + 30 seg respuesta..</div>
+                                    <div class="sub-evento"><span class="sub-hora">5:56</span> (3 min)<br>Margen de seguridad y transición</div>
+                                </div>
+                            </div>
+
+                            <div class="evento-galeria">
+                                <!-- Efecto Thanos -->
+                                <div class="g-img img-thanos">
+                                    <div class="corte corte-1" style="background-image: url('./Columna2/_106309622_gettyimages-928085588.jpg');"></div>
+                                    <div class="corte corte-2" style="background-image: url('./Columna2/_106309622_gettyimages-928085588.jpg');"></div>
+                                </div>
+                                <!-- Efecto Zoom -->
+                                <div class="g-img img-zoom" style="background-image: url('./Columna2/corrupcion1.png');"></div>
+                                <div class="g-img img-thanos">
+                                    <div class="corte corte-1" style="background-image: url('./Columna1/delincuencia-e1551195045228.jpg');"></div>
+                                    <div class="corte corte-2" style="background-image: url('./Columna1/delincuencia-e1551195045228.jpg');"></div>
+                                </div>
+
+                                <div class="g-img img-slide" style="background-image: url('./Columna2/descargar.jpg');"></div>
+                                
+                                <div class="g-img img-zoom" style="background-image: url('./Columna2/corrupcion1.png');"></div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOQUE 3: Economía, empleo y desarrollo regional -->
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div>
+                        <div class="evento-header">
+                            <span class="evento-hora">6:00 PM</span>
+                            <h3 class="evento-titulo">Bloque 2: Economía, empleo y desarrollo regional</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            <div class="evento-detalles">
+                                <p>
+                                    ¿Qué medidas legislativas promoverá para impulsar el empleo formal y digno en Arequipa, especialmente para jóvenes, sin precarizar sus derechos laborales?
+                                </p>
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">6:00</span> (5 min)<br>Ronda de postura (30 seg c/u). Orden: C1 a C10</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:05</span> (7 min)<br>Ronda de propuesta (45 seg c/u). Mismo orden: C1 a C10.</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:12</span> (2 min)<br>Réplicas (hasta 2). Cada réplica: 30 seg + 30 seg respuesta..</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:15</span> (3 min)<br>Margen de seguridad y transición</div>
+                                </div>
+                            </div>
+
+                            <div class="evento-galeria">
+                                <div class="g-img img-slide" style="background-image: url('./Columna3/1128745-np2-190325-12.jpg');"></div>
+                                
+                                <div class="g-img img-zoom" style="background-image: url('./Columna3/4121-EmpleoyPrácticas.jpg');"></div>
+                                <!-- Efecto Zoom -->
+                                <div class="g-img img-zoom" style="background-image: url('./Columna3/Desarrollo-regional.jpg');"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOQUE 3: Economía, empleo y desarrollo regional -->
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div>
+                        <div class="evento-header">
+                            <h3 class="evento-titulo">Economía, empleo y desarrollo regional</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            <div class="evento-detalles">
+                                <p>
+                                    ¿Qué cambios propondría para mejorar la educación (básica, técnica y superior) y la inserción laboral de los jóvenes (prácticas, meritocracia, formación dual), asegurando calidad y pertinencia?
+                                </p>
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">6:16</span> (5 min)<br>Ronda de postura (30 seg c/u). Orden: C1 a C10</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:21</span> (7 min)<br>Ronda de propuesta (45 seg c/u). Mismo orden: C1 a C10.</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:29</span> (2 min)<br>Réplicas (hasta 2). Cada réplica: 30 seg + 30 seg respuesta..</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:31</span> (3 min)<br>Cierre del bloque</div>
+                                </div>
+                            </div>
+
+                            <div class="evento-galeria">
+                                <div class="g-img img-zoom" style="background-image: url('./Columna3/destaque-economia.webp');"></div>
+                                
+                                <div class="g-img img-zoom" style="background-image: url('./Columna3/empleo.jpg');"></div>
+                                <!-- Efecto Zoom -->
+                                <div class="g-img img-slide" style="background-image: url('./Columna3/tipos-de-economia.jpg');"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOQUE 4: Dignidad humana, vida, familia y educación -->
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div>
+                        <div class="evento-header">
+                            <span class="evento-hora">6:35 pm</span>
+                            <h3 class="evento-titulo">Bloque 3: Dignidad humana, vida, familia y educación</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            <div class="evento-detalles">
+                                <p>
+                                    ¿Cuál es su postura frente a la despenalización o ampliación de causales del aborto y frente a la eutanasia? Independientemente de su postura, ¿qué iniciativas concretas impulsará para reducir la mortalidad materna, fortalecer la salud mental y ampliar los cuidados paliativos en el país?
+                                </p>
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">6:45</span> (5 min)<br>Ronda de postura (30 seg c/u). Orden: C1 a C10</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:50</span> (7 min)<br>Ronda de propuesta (45 seg c/u). Mismo orden: C1 a C10.</div>
+                                    <div class="sub-evento"><span class="sub-hora">6:58</span> (2 min)<br>Réplicas (hasta 2). Cada réplica: 30 seg + 30 seg respuesta..</div>
+                                    <div class="sub-evento"><span class="sub-hora">7:00</span> (3 min)<br>Transición</div>
+                                </div>
+                            </div>
+
+                            <div class="evento-galeria">
+                                <div class="g-img img-slide" style="background-image: url('./Columna4/1301367229_104690235_1-PROFESORES-PARTICULARES-CLASES-DE-MATEMaTICA-QUiMICA-FiSICA-BACHILLERATO-Zona-Sureste-y-El-Paraiso.jpg');"></div>
+                                
+                                <div class="g-img img-zoom" style="background-image: url('./Columna4/191119-aca4-des-f1-la-vida.jpg');"></div>
+                                <!-- Efecto Zoom -->
+                                <div class="g-img img-slide" style="background-image: url('./Columna4/360_F_832724549_OmGThx7MBT3sCEWWfeEnuY9emnVQYtMJ.jpg');"></div>
+
+                                <div class="g-img img-zoom" style="background-image: url('./Columna4/64481f3d579fd.jpeg');"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div>
+                        <div class="evento-header">
+                            <h3 class="evento-titulo">Dignidad humana, vida, familia y educación</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            <div class="evento-detalles">
+                                <p>
+                                    ¿Qué enfoque promoverá para prevenir la violencia sexual y el embarazo adolescente, respetando el rol de los padres y la libertad de conciencia?
+                                </p>
+                                <p>
+                                    Además, ¿qué políticas públicas propondrá para fortalecer a la familia en áreas como primera infancia, conciliación trabajo-familia, lucha contra la violencia y cumplimiento de pensiones alimenticias?
+                                </p>
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">7:00</span> (5 min)<br>Ronda de postura (30 seg c/u). Orden: C1 a C10</div>
+                                    <div class="sub-evento"><span class="sub-hora">7:05</span> (7 min)<br>Ronda de propuesta (45 seg c/u). Mismo orden: C1 a C10.</div>
+                                    <div class="sub-evento"><span class="sub-hora">7:14</span> (2 min)<br>Réplicas (hasta 2). Cada réplica: 30 seg + 30 seg respuesta..</div>
+                                    <div class="sub-evento"><span class="sub-hora">7:16</span> (3 min)<br>Cierre del bloque y palabras finales de los moderadores sobre los temas tratados.</div>
+                                </div>
+                            </div>
+
+                            <div class="evento-galeria">
+                                <div class="g-img img-slide" style="background-image: url('./Columna4/blog-derechos-humanos.png');"></div>
+                                
+                                <div class="g-img img-zoom" style="background-image: url('./Columna4/Break-Free-Investors-Logo-750x422-1.jpg');"></div>
+                                <!-- Efecto Zoom -->
+                                <div class="g-img img-slide" style="background-image: url('./Columna4/familia-og.webp');"></div>
+
+                                <div class="g-img img-zoom" style="background-image: url('./Columna4/vida-2.webp');"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOQUE 3: CIERRE -->
+                <div class="evento-bloque">
+                    <div class="evento-sticky-container">
+                        <div class="evento-punto"></div>
+                        <div class="evento-header">
+                            <span class="evento-hora">7:25 PM</span>
+                            <h3 class="evento-titulo">Cierre del evento</h3>
+                        </div>
+                        
+                        <div class="evento-contenido-grid">
+                            <div class="evento-detalles">
+                                <div class="evento-texto">
+                                    <div class="sub-evento"><span class="sub-hora">7:25 - 7:42</span> (17 min)<br>Mensaje final de cierre (1.5 minutos por candidato).</div>
+                                    <div class="sub-evento"><span class="sub-hora">7:42 - 7:45</span> (3 min)<br>Agradecimiento final e invitación al escenario para la <strong>Foto Oficial</strong>.</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Puedes agregar un BLOQUE 4 pegando el código HTML de un evento aquí abajo -->
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- FOOTER REVEAL -->
+<footer class="footer-reveal">
+    <div class="footer-logo">Voces con <span>Propósito</span></div>
+    <div class="footer-text">El Gran Debate de Arequipa 2026</div>
+    <p style="margin-top: 20px; font-size: 0.8rem; color: #555;">Transparencia y Democracia</p>
+</footer>
+
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* --- LENIS PARA SCROLL SUAVE --- */
+        const lenis = new Lenis({
+            duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical', smooth: true, smoothTouch: true, touchMultiplier: 1.8,
+        });
+        lenis.stop(); // Se detiene hasta que pase el preloader
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        /* --- PRELOADER --- */
+        const tlPreloader = gsap.timeline({ onComplete: () => { 
+            document.getElementById('preloader').style.display = 'none'; 
+            lenis.start(); // Inicia el scroll
+        }});
+        tlPreloader.to('.misti-loader-img', { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" })
+                   .to('.loader-logo', { opacity: 1, bottom: "30px", duration: 1, ease: "back.out(1.5)" }, "-=0.8")
+                   .to('#preloader', { opacity: 0, duration: 1, ease: "power2.inOut", delay: 1.2 });
+
+        /* --- HERO PARALLAX --- */
+        let tlHero = gsap.timeline({ scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }});
+        tlHero.to('#hero-bg', { yPercent: 20, ease: "none" }, 0);
+        tlHero.to('#hero-2026', { yPercent: -50, opacity: 0, ease: "none" }, 0); 
+        tlHero.to('#hero-fg', { yPercent: -15, ease: "none" }, 0);
+        tlHero.to('#hero-title', { y: -300, opacity: 0, scale: 0.9, ease: "none" }, 0);
+
+        /* =========================================================
+           LÓGICA FOTOS CANDIDATOS (Totalmente Automática)
+           ========================================================= */
+        const track = document.getElementById('candidatos-track');
+        const panels = gsap.utils.toArray('.candidato-panel');
+        const progressBar = document.getElementById('candidato-progress');
+        
+        let tlCandidatos = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#candidatos-pin",
+                pin: true, // Fija la sección en pantalla
+                scrub: 1,  // Se anima con la rueda del ratón
+                // La duración del scroll aumenta según el número de candidatos (aprox 1200px por candidato)
+                end: () => "+=" + (panels.length * 1200),
+                onUpdate: (self) => { progressBar.style.width = (self.progress * 100) + "%"; }
+            }
+        });
+
+        panels.forEach((panel, i) => {
+            let images = panel.querySelectorAll('.cand-img');
+
+            // 1. Efecto de cambio de fotos DENTRO de un mismo candidato
+            if (images.length > 1) {
+                for (let j = 0; j < images.length - 1; j++) {
+                    tlCandidatos.to({}, { duration: 0.2 }); // pequeña pausa
+                    tlCandidatos.to(images[j], { scale: 1.2, opacity: 0, duration: 1, ease: "power2.inOut" }, "trans_" + i + "_" + j);
+                    tlCandidatos.to(images[j+1], { scale: 1, opacity: 1, duration: 1, ease: "power2.out" }, "trans_" + i + "_" + j);
+                }
+            }
+
+            // 2. Mueve la pista (track) al SIGUIENTE candidato
+            if (i < panels.length - 1) {
+                tlCandidatos.to({}, { duration: 0.4 }); // Pausa para leer la info final
+                // Mueve todo el contenedor horizontalmente
+                tlCandidatos.to(track, { x: `-${(i + 1) * 100}vw`, ease: "power2.inOut", duration: 1.5 });
+            }
+        });
+
+        /* =========================================================
+           LÓGICA DEL CRONOGRAMA "RUN OF SHOW"
+           (CORRECCIÓN: Animación fluida sin 'pin' en el ScrollTrigger)
+           ========================================================= */
+        const timelineContainer = document.querySelector('.timeline-container');
+
+        // 2. Iteramos por cada Evento/Bloque que hayas pegado
+        const bloquesEventos = gsap.utils.toArray('.evento-bloque');
+
+        bloquesEventos.forEach((bloque) => {
+            
+            // Animaciones de revelado para el bloque de texto y el punto
+            gsap.from(bloque.querySelector('.evento-contenido-grid'), {
+                y: 60, opacity: 0, duration: 1.5, ease: "power2.out",
+                scrollTrigger: { trigger: bloque, start: "top 50%" }
+            });
+
+            gsap.to(bloque.querySelector('.evento-punto'), {
+                scale: 1, duration: 0.5, ease: "back.out(1.5)",
+                scrollTrigger: { trigger: bloque, start: "top 50%" }
+            });
+
+            /* --- MAGIA DE LA GALERÍA: PINEAR Y ANIMAR SECUENCIALMENTE --- */
+            const galeria = bloque.querySelector('.evento-galeria');
+            const stickyContainer = bloque.querySelector('.evento-sticky-container');
+            
+            if(galeria && stickyContainer) {
+                const imgs = galeria.querySelectorAll('.g-img');
+                
+                // Aseguramos que las imágenes se apilen correctamente (la primera arriba del todo)
+                imgs.forEach((img, i) => {
+                    gsap.set(img, { zIndex: imgs.length - i });
+                });
+
+                if (imgs.length > 0) {
+                    // 1. PIN DEL CONTENEDOR COMPLETO (Texto + Galería)
+                    let tlImg = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: galeria, // Usamos la galería como punto de referencia
+                            start: "top 20%", // Se ancla cuando el TOP de la galería llega al 20% de la pantalla
+                            // El scroll se hace más largo dependiendo de cuántas imágenes hay (1000px por imagen)
+                            end: () => "+=" + (imgs.length * 300), 
+                            pin: stickyContainer, // ¡CLAVE! Pineamos el contenedor padre para no romper el diseño
+                            scrub: 1   // Suavidad vinculada a la rueda del ratón
+                        }
+                    });
+
+                    // 2. ANIMAMOS CADA IMAGEN EN SECUENCIA MIENTRAS HACEMOS SCROLL
+                    imgs.forEach((img, index) => {
+                        const isLast = index === imgs.length - 1;
+
+                        // Animaciones de ENTRADA (La primera imagen ya está visible por defecto)
+                        if (index > 0) {
+                            if (img.classList.contains('img-zoom')) {
+                                tlImg.fromTo(img, { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 1 }, index);
+                            } else if (img.classList.contains('img-slide')) {
+                                tlImg.fromTo(img, { xPercent: 100, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 1 }, index);
+                            } else {
+                                tlImg.fromTo(img, { opacity: 0 }, { opacity: 1, duration: 1 }, index);
+                            }
+                        }
+
+                        // Animaciones de SALIDA (La última imagen se queda en pantalla, no sale)
+                        if (!isLast) {
+                            if (img.classList.contains('img-thanos')) {
+                                const cortes = img.querySelectorAll('.corte');
+                                if(cortes.length === 2) {
+                                    tlImg.to(cortes[0], { xPercent: -50, yPercent: -50, rotation: -25, opacity: 0, duration: 1 }, index + 1);
+                                    tlImg.to(cortes[1], { xPercent: 50, yPercent: 50, rotation: 25, opacity: 0, duration: 1 }, index + 1);
+                                }
+                            } else if (img.classList.contains('img-zoom')) {
+                                tlImg.to(img, { scale: 0.8, opacity: 0, duration: 1 }, index + 1);
+                            } else if (img.classList.contains('img-slide')) {
+                                tlImg.to(img, { xPercent: -100, opacity: 0, duration: 1 }, index + 1);
+                            } else {
+                                tlImg.to(img, { opacity: 0, duration: 1 }, index + 1);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        gsap.to('#linea-centro', {
+            scrollTrigger: {
+                trigger: timelineContainer,
+                start: "top 50%", // La punta de la línea nace cuando el contenedor llega a la mitad
+                end: "bottom 50%", // La línea deja de crecer cuando el final del contenedor llega a la mitad
+                scrub: true,
+                // Al animar el bottom, la altura de la línea se calcula automáticamente
+                // entre el top del contenedor y el centro actual de la pantalla
+            },
+            height: "100%", 
+            ease: "none"
+        });
+
+        /* --- SPOTLIGHT MOUSE (Iluminación de fondo en Cronograma) --- */
+        const cronograma = document.getElementById('cronograma');
+        cronograma.addEventListener('mousemove', (e) => {
+            const rect = cronograma.getBoundingClientRect();
+            cronograma.style.setProperty('--mouse-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+            cronograma.style.setProperty('--mouse-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+        });
+
+    });
+</script>
+</body>
+</html>
