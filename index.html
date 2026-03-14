@@ -698,6 +698,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
+<!-- Scripts JS Optimizados -->
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         gsap.registerPlugin(ScrollTrigger);
@@ -707,7 +708,7 @@
             duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical', smooth: true, smoothTouch: true, touchMultiplier: 1.8,
         });
-        lenis.stop(); // Se detiene hasta que pase el preloader
+        lenis.stop(); 
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0, 0);
@@ -715,7 +716,7 @@
         /* --- PRELOADER --- */
         const tlPreloader = gsap.timeline({ onComplete: () => { 
             document.getElementById('preloader').style.display = 'none'; 
-            lenis.start(); // Inicia el scroll
+            lenis.start(); 
         }});
         tlPreloader.to('.misti-loader-img', { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" })
                    .to('.loader-logo', { opacity: 1, bottom: "30px", duration: 1, ease: "back.out(1.5)" }, "-=0.8")
@@ -726,11 +727,9 @@
         tlHero.to('#hero-bg', { yPercent: 20, ease: "none" }, 0);
         tlHero.to('#hero-2026', { yPercent: -50, opacity: 0, ease: "none" }, 0); 
         tlHero.to('#hero-fg', { yPercent: -15, ease: "none" }, 0);
-        tlHero.to('#hero-title', { y: -200, opacity: 0, scale: 0.9, ease: "none" }, 0);
+        tlHero.to('#hero-title', { y: -300, opacity: 0, scale: 0.9, ease: "none" }, 0);
 
-        /* =========================================================
-           LÓGICA FOTOS CANDIDATOS (Totalmente Automática)
-           ========================================================= */
+        /* --- LÓGICA FOTOS CANDIDATOS --- */
         const track = document.getElementById('candidatos-track');
         const panels = gsap.utils.toArray('.candidato-panel');
         const progressBar = document.getElementById('candidato-progress');
@@ -738,46 +737,37 @@
         let tlCandidatos = gsap.timeline({
             scrollTrigger: {
                 trigger: "#candidatos-pin",
-                pin: true, // Fija la sección en pantalla
-                scrub: 1,  // Se anima con la rueda del ratón
-                // La duración del scroll aumenta según el número de candidatos (aprox 1200px por candidato)
+                pin: true, 
+                scrub: 1,  
                 end: () => "+=" + (panels.length * 1200),
-                onUpdate: (self) => { progressBar.style.width = (self.progress * 100) + "%"; }
+                onUpdate: (self) => { 
+                    if(progressBar) progressBar.style.width = (self.progress * 100) + "%"; 
+                }
             }
         });
 
         panels.forEach((panel, i) => {
             let images = panel.querySelectorAll('.cand-img');
 
-            // 1. Efecto de cambio de fotos DENTRO de un mismo candidato
             if (images.length > 1) {
                 for (let j = 0; j < images.length - 1; j++) {
-                    tlCandidatos.to({}, { duration: 0.2 }); // pequeña pausa
+                    tlCandidatos.to({}, { duration: 0.2 }); 
                     tlCandidatos.to(images[j], { scale: 1.2, opacity: 0, duration: 1, ease: "power2.inOut" }, "trans_" + i + "_" + j);
                     tlCandidatos.to(images[j+1], { scale: 1, opacity: 1, duration: 1, ease: "power2.out" }, "trans_" + i + "_" + j);
                 }
             }
 
-            // 2. Mueve la pista (track) al SIGUIENTE candidato
             if (i < panels.length - 1) {
-                tlCandidatos.to({}, { duration: 0.4 }); // Pausa para leer la info final
-                // Mueve todo el contenedor horizontalmente
+                tlCandidatos.to({}, { duration: 0.4 }); 
                 tlCandidatos.to(track, { x: `-${(i + 1) * 100}vw`, ease: "power2.inOut", duration: 1.5 });
             }
         });
 
-        /* =========================================================
-           LÓGICA DEL CRONOGRAMA "RUN OF SHOW"
-           (CORRECCIÓN: Animación fluida sin 'pin' en el ScrollTrigger)
-           ========================================================= */
+        /* --- LÓGICA DEL CRONOGRAMA --- */
         const timelineContainer = document.querySelector('.timeline-container');
-
-        // 2. Iteramos por cada Evento/Bloque que hayas pegado
         const bloquesEventos = gsap.utils.toArray('.evento-bloque');
 
         bloquesEventos.forEach((bloque) => {
-            
-            // Animaciones de revelado para el bloque de texto y el punto
             gsap.from(bloque.querySelector('.evento-contenido-grid'), {
                 y: 60, opacity: 0, duration: 1.5, ease: "power2.out",
                 scrollTrigger: { trigger: bloque, start: "top 50%" }
@@ -788,36 +778,28 @@
                 scrollTrigger: { trigger: bloque, start: "top 50%" }
             });
 
-            /* --- MAGIA DE LA GALERÍA: PINEAR Y ANIMAR SECUENCIALMENTE --- */
             const galeria = bloque.querySelector('.evento-galeria');
             const stickyContainer = bloque.querySelector('.evento-sticky-container');
             
             if(galeria && stickyContainer) {
                 const imgs = galeria.querySelectorAll('.g-img');
                 
-                // Aseguramos que las imágenes se apilen correctamente (la primera arriba del todo)
-                imgs.forEach((img, i) => {
-                    gsap.set(img, { zIndex: imgs.length - i });
-                });
+                imgs.forEach((img, i) => { gsap.set(img, { zIndex: imgs.length - i }); });
 
                 if (imgs.length > 0) {
-                    // 1. PIN DEL CONTENEDOR COMPLETO (Texto + Galería)
                     let tlImg = gsap.timeline({
                         scrollTrigger: {
-                            trigger: galeria, // Usamos la galería como punto de referencia
-                            start: "top 20%", // Se ancla cuando el TOP de la galería llega al 20% de la pantalla
-                            // El scroll se hace más largo dependiendo de cuántas imágenes hay (1000px por imagen)
+                            trigger: galeria, 
+                            start: "top 20%", 
                             end: () => "+=" + (imgs.length * 300), 
-                            pin: stickyContainer, // ¡CLAVE! Pineamos el contenedor padre para no romper el diseño
-                            scrub: 1   // Suavidad vinculada a la rueda del ratón
+                            pin: stickyContainer, 
+                            scrub: 1   
                         }
                     });
 
-                    // 2. ANIMAMOS CADA IMAGEN EN SECUENCIA MIENTRAS HACEMOS SCROLL
                     imgs.forEach((img, index) => {
                         const isLast = index === imgs.length - 1;
 
-                        // Animaciones de ENTRADA (La primera imagen ya está visible por defecto)
                         if (index > 0) {
                             if (img.classList.contains('img-zoom')) {
                                 tlImg.fromTo(img, { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 1 }, index);
@@ -828,7 +810,6 @@
                             }
                         }
 
-                        // Animaciones de SALIDA (La última imagen se queda en pantalla, no sale)
                         if (!isLast) {
                             if (img.classList.contains('img-thanos')) {
                                 const cortes = img.querySelectorAll('.corte');
@@ -852,24 +833,37 @@
         gsap.to('#linea-centro', {
             scrollTrigger: {
                 trigger: timelineContainer,
-                start: "top 50%", // La punta de la línea nace cuando el contenedor llega a la mitad
-                end: "bottom 50%", // La línea deja de crecer cuando el final del contenedor llega a la mitad
+                start: "top 50%", 
+                end: "bottom 50%", 
                 scrub: true,
-                // Al animar el bottom, la altura de la línea se calcula automáticamente
-                // entre el top del contenedor y el centro actual de la pantalla
             },
             height: "100%", 
             ease: "none"
         });
 
-        /* --- SPOTLIGHT MOUSE (Iluminación de fondo en Cronograma) --- */
+        /* --- SPOTLIGHT MOUSE OPTIMIZADO (Sin colapsar Gama Baja) --- */
         const cronograma = document.getElementById('cronograma');
-        cronograma.addEventListener('mousemove', (e) => {
-            const rect = cronograma.getBoundingClientRect();
-            cronograma.style.setProperty('--mouse-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
-            cronograma.style.setProperty('--mouse-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
-        });
+        if(cronograma) {
+            let rafId = null;
+            let cronoRect = null;
 
+            // Actualiza dimensiones solo en eventos pesados
+            const updateRect = () => { cronoRect = cronograma.getBoundingClientRect(); };
+            window.addEventListener('resize', updateRect, { passive: true });
+            window.addEventListener('scroll', updateRect, { passive: true });
+
+            // requestAnimationFrame evita que se disparen múltiples redibujados (Layout Thrashing)
+            cronograma.addEventListener('mousemove', (e) => {
+                if(!cronoRect) updateRect();
+                
+                if(rafId) cancelAnimationFrame(rafId);
+                
+                rafId = requestAnimationFrame(() => {
+                    cronograma.style.setProperty('--mouse-x', `${((e.clientX - cronoRect.left) / cronoRect.width) * 100}%`);
+                    cronograma.style.setProperty('--mouse-y', `${((e.clientY - cronoRect.top) / cronoRect.height) * 100}%`);
+                });
+            }, { passive: true });
+        }
     });
 </script>
 </body>
