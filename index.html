@@ -698,173 +698,230 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-<!-- Scripts JS Optimizados -->
+<!-- ... existing code ... -->
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         gsap.registerPlugin(ScrollTrigger);
 
-        /* --- LENIS PARA SCROLL SUAVE --- */
-        const lenis = new Lenis({
-            duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical', smooth: true, smoothTouch: true, touchMultiplier: 1.8,
-        });
-        lenis.stop(); 
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-        gsap.ticker.lagSmoothing(0, 0);
-
-        /* --- PRELOADER --- */
-        const tlPreloader = gsap.timeline({ onComplete: () => { 
-            document.getElementById('preloader').style.display = 'none'; 
-            lenis.start(); 
-        }});
-        tlPreloader.to('.misti-loader-img', { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" })
-                   .to('.loader-logo', { opacity: 1, bottom: "30px", duration: 1, ease: "back.out(1.5)" }, "-=0.8")
-                   .to('#preloader', { opacity: 0, duration: 1, ease: "power2.inOut", delay: 1.2 });
-
-        /* --- HERO PARALLAX --- */
-        let tlHero = gsap.timeline({ scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }});
-        tlHero.to('#hero-bg', { yPercent: 20, ease: "none" }, 0);
-        tlHero.to('#hero-2026', { yPercent: -50, opacity: 0, ease: "none" }, 0); 
-        tlHero.to('#hero-fg', { yPercent: -15, ease: "none" }, 0);
-        tlHero.to('#hero-title', { y: -300, opacity: 0, scale: 0.9, ease: "none" }, 0);
-
-        /* --- LÓGICA FOTOS CANDIDATOS --- */
-        const track = document.getElementById('candidatos-track');
-        const panels = gsap.utils.toArray('.candidato-panel');
-        const progressBar = document.getElementById('candidato-progress');
-        
-        let tlCandidatos = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#candidatos-pin",
-                pin: true, 
-                scrub: 1,  
-                end: () => "+=" + (panels.length * 1200),
-                onUpdate: (self) => { 
-                    if(progressBar) progressBar.style.width = (self.progress * 100) + "%"; 
-                }
-            }
-        });
-
-        panels.forEach((panel, i) => {
-            let images = panel.querySelectorAll('.cand-img');
-
-            if (images.length > 1) {
-                for (let j = 0; j < images.length - 1; j++) {
-                    tlCandidatos.to({}, { duration: 0.2 }); 
-                    tlCandidatos.to(images[j], { scale: 1.2, opacity: 0, duration: 1, ease: "power2.inOut" }, "trans_" + i + "_" + j);
-                    tlCandidatos.to(images[j+1], { scale: 1, opacity: 1, duration: 1, ease: "power2.out" }, "trans_" + i + "_" + j);
-                }
-            }
-
-            if (i < panels.length - 1) {
-                tlCandidatos.to({}, { duration: 0.4 }); 
-                tlCandidatos.to(track, { x: `-${(i + 1) * 100}vw`, ease: "power2.inOut", duration: 1.5 });
-            }
-        });
-
-        /* --- LÓGICA DEL CRONOGRAMA --- */
-        const timelineContainer = document.querySelector('.timeline-container');
-        const bloquesEventos = gsap.utils.toArray('.evento-bloque');
-
-        bloquesEventos.forEach((bloque) => {
-            gsap.from(bloque.querySelector('.evento-contenido-grid'), {
-                y: 60, opacity: 0, duration: 1.5, ease: "power2.out",
-                scrollTrigger: { trigger: bloque, start: "top 50%" }
-            });
-
-            gsap.to(bloque.querySelector('.evento-punto'), {
-                scale: 1, duration: 0.5, ease: "back.out(1.5)",
-                scrollTrigger: { trigger: bloque, start: "top 50%" }
-            });
-
-            const galeria = bloque.querySelector('.evento-galeria');
-            const stickyContainer = bloque.querySelector('.evento-sticky-container');
-            
-            if(galeria && stickyContainer) {
-                const imgs = galeria.querySelectorAll('.g-img');
-                
-                imgs.forEach((img, i) => { gsap.set(img, { zIndex: imgs.length - i }); });
-
-                if (imgs.length > 0) {
-                    let tlImg = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: galeria, 
-                            start: "top 20%", 
-                            end: () => "+=" + (imgs.length * 300), 
-                            pin: stickyContainer, 
-                            scrub: 1   
-                        }
-                    });
-
-                    imgs.forEach((img, index) => {
-                        const isLast = index === imgs.length - 1;
-
-                        if (index > 0) {
-                            if (img.classList.contains('img-zoom')) {
-                                tlImg.fromTo(img, { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 1 }, index);
-                            } else if (img.classList.contains('img-slide')) {
-                                tlImg.fromTo(img, { xPercent: 100, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 1 }, index);
-                            } else {
-                                tlImg.fromTo(img, { opacity: 0 }, { opacity: 1, duration: 1 }, index);
-                            }
-                        }
-
-                        if (!isLast) {
-                            if (img.classList.contains('img-thanos')) {
-                                const cortes = img.querySelectorAll('.corte');
-                                if(cortes.length === 2) {
-                                    tlImg.to(cortes[0], { xPercent: -50, yPercent: -50, rotation: -25, opacity: 0, duration: 1 }, index + 1);
-                                    tlImg.to(cortes[1], { xPercent: 50, yPercent: 50, rotation: 25, opacity: 0, duration: 1 }, index + 1);
-                                }
-                            } else if (img.classList.contains('img-zoom')) {
-                                tlImg.to(img, { scale: 0.8, opacity: 0, duration: 1 }, index + 1);
-                            } else if (img.classList.contains('img-slide')) {
-                                tlImg.to(img, { xPercent: -100, opacity: 0, duration: 1 }, index + 1);
-                            } else {
-                                tlImg.to(img, { opacity: 0, duration: 1 }, index + 1);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-        gsap.to('#linea-centro', {
-            scrollTrigger: {
-                trigger: timelineContainer,
-                start: "top 50%", 
-                end: "bottom 50%", 
-                scrub: true,
+        /* =========================================================
+           PATRÓN MÓDULO (Module Pattern)
+           Encapsulamos la lógica para liberar memoria más rápido y
+           evitar choques de variables globales en móviles.
+           ========================================================= */
+        const App = {
+            init() {
+                this.initLenis();
+                this.initPreloader();
+                this.initHero();
+                this.initCandidatos();
+                this.initCronograma();
+                this.initSpotlight();
             },
-            height: "100%", 
-            ease: "none"
-        });
 
-        /* --- SPOTLIGHT MOUSE OPTIMIZADO (Sin colapsar Gama Baja) --- */
-        const cronograma = document.getElementById('cronograma');
-        if(cronograma) {
-            let rafId = null;
-            let cronoRect = null;
-
-            // Actualiza dimensiones solo en eventos pesados
-            const updateRect = () => { cronoRect = cronograma.getBoundingClientRect(); };
-            window.addEventListener('resize', updateRect, { passive: true });
-            window.addEventListener('scroll', updateRect, { passive: true });
-
-            // requestAnimationFrame evita que se disparen múltiples redibujados (Layout Thrashing)
-            cronograma.addEventListener('mousemove', (e) => {
-                if(!cronoRect) updateRect();
-                
-                if(rafId) cancelAnimationFrame(rafId);
-                
-                rafId = requestAnimationFrame(() => {
-                    cronograma.style.setProperty('--mouse-x', `${((e.clientX - cronoRect.left) / cronoRect.width) * 100}%`);
-                    cronograma.style.setProperty('--mouse-y', `${((e.clientY - cronoRect.top) / cronoRect.height) * 100}%`);
+            initLenis() {
+                /* --- LENIS PARA SCROLL SUAVE --- */
+                this.lenis = new Lenis({
+                    duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical', smooth: true, smoothTouch: true, touchMultiplier: 1.8,
                 });
-            }, { passive: true });
-        }
+                this.lenis.stop();
+                this.lenis.on('scroll', ScrollTrigger.update);
+                gsap.ticker.add((time) => { this.lenis.raf(time * 1000); });
+                gsap.ticker.lagSmoothing(0, 0);
+            },
+
+            initPreloader() {
+                /* --- PRELOADER --- */
+                const preloader = document.getElementById('preloader');
+                if (!preloader) return;
+
+                const tlPreloader = gsap.timeline({ onComplete: () => { 
+                    preloader.style.display = 'none'; 
+                    this.lenis.start(); 
+                }});
+                
+                // OPTIMIZACIÓN: force3D: true obliga al celular a usar su aceleradora gráfica (GPU)
+                tlPreloader.to('.misti-loader-img', { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out", force3D: true })
+                           .to('.loader-logo', { opacity: 1, bottom: "30px", duration: 1, ease: "back.out(1.5)", force3D: true }, "-=0.8")
+                           .to(preloader, { opacity: 0, duration: 1, ease: "power2.inOut", force3D: true, delay: 1.2 });
+            },
+
+            initHero() {
+                /* --- HERO PARALLAX --- */
+                let tlHero = gsap.timeline({ scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }});
+                tlHero.to('#hero-bg', { yPercent: 20, ease: "none", force3D: true }, 0);
+                tlHero.to('#hero-2026', { yPercent: -50, opacity: 0, ease: "none", force3D: true }, 0); 
+                tlHero.to('#hero-fg', { yPercent: -15, ease: "none", force3D: true }, 0);
+                tlHero.to('#hero-title', { y: -200, opacity: 0, scale: 0.9, ease: "none", force3D: true }, 0);
+            },
+
+            initCandidatos() {
+                /* --- LÓGICA FOTOS CANDIDATOS --- */
+                const track = document.getElementById('candidatos-track');
+                const progressBar = document.getElementById('candidato-progress');
+                if (!track || !progressBar) return;
+
+                const panels = gsap.utils.toArray('.candidato-panel');
+                const panelsLen = panels.length; // DOM Caching: Evita re-calcular en cada iteración
+
+                let tlCandidatos = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#candidatos-pin",
+                        pin: true,
+                        scrub: 1, 
+                        end: () => "+=" + (panelsLen * 1200),
+                        onUpdate: (self) => { progressBar.style.width = (self.progress * 100) + "%"; }
+                    }
+                });
+
+                panels.forEach((panel, i) => {
+                    const images = panel.querySelectorAll('.cand-img');
+                    const imgLen = images.length;
+
+                    if (imgLen > 1) {
+                        for (let j = 0; j < imgLen - 1; j++) {
+                            tlCandidatos.to({}, { duration: 0.2 });
+                            tlCandidatos.to(images[j], { scale: 1.2, opacity: 0, duration: 1, ease: "power2.inOut", force3D: true }, "trans_" + i + "_" + j);
+                            tlCandidatos.to(images[j+1], { scale: 1, opacity: 1, duration: 1, ease: "power2.out", force3D: true }, "trans_" + i + "_" + j);
+                        }
+                    }
+
+                    if (i < panelsLen - 1) {
+                        tlCandidatos.to({}, { duration: 0.4 });
+                        tlCandidatos.to(track, { x: `-${(i + 1) * 100}vw`, ease: "power2.inOut", duration: 1.5, force3D: true });
+                    }
+                });
+            },
+
+            initCronograma() {
+                /* --- LÓGICA DEL CRONOGRAMA --- */
+                const timelineContainer = document.querySelector('.timeline-container');
+                if (!timelineContainer) return;
+
+                const bloquesEventos = gsap.utils.toArray('.evento-bloque');
+
+                bloquesEventos.forEach((bloque) => {
+                    const grid = bloque.querySelector('.evento-contenido-grid');
+                    const punto = bloque.querySelector('.evento-punto');
+
+                    if(grid) {
+                        gsap.from(grid, {
+                            y: 60, opacity: 0, duration: 1.5, ease: "power2.out", force3D: true,
+                            scrollTrigger: { trigger: bloque, start: "top 50%" }
+                        });
+                    }
+
+                    if(punto) {
+                        gsap.to(punto, {
+                            scale: 1, duration: 0.5, ease: "back.out(1.5)", force3D: true,
+                            scrollTrigger: { trigger: bloque, start: "top 50%" }
+                        });
+                    }
+
+                    const galeria = bloque.querySelector('.evento-galeria');
+                    const stickyContainer = bloque.querySelector('.evento-sticky-container');
+                    
+                    if(galeria && stickyContainer) {
+                        const imgs = galeria.querySelectorAll('.g-img');
+                        const imgsLen = imgs.length;
+                        
+                        // GSAP Setter: Asigna z-index y hardware accel a todas de golpe (reduce reflows)
+                        gsap.set(imgs, { zIndex: (i) => imgsLen - i, force3D: true });
+
+                        if (imgsLen > 0) {
+                            let tlImg = gsap.timeline({
+                                scrollTrigger: {
+                                    trigger: galeria,
+                                    start: "top 20%",
+                                    end: () => "+=" + (imgsLen * 300), 
+                                    pin: stickyContainer,
+                                    scrub: 1
+                                }
+                            });
+
+                            imgs.forEach((img, index) => {
+                                const isLast = index === imgsLen - 1;
+                                
+                                // DOM Caching: Consultar classList solo 1 vez por imagen
+                                const isZoom = img.classList.contains('img-zoom');
+                                const isSlide = img.classList.contains('img-slide');
+                                const isThanos = img.classList.contains('img-thanos');
+
+                                if (index > 0) {
+                                    if (isZoom) {
+                                        tlImg.fromTo(img, { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, force3D: true }, index);
+                                    } else if (isSlide) {
+                                        tlImg.fromTo(img, { xPercent: 100, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 1, force3D: true }, index);
+                                    } else {
+                                        tlImg.fromTo(img, { opacity: 0 }, { opacity: 1, duration: 1, force3D: true }, index);
+                                    }
+                                }
+
+                                if (!isLast) {
+                                    if (isThanos) {
+                                        const cortes = img.querySelectorAll('.corte');
+                                        if(cortes.length === 2) {
+                                            tlImg.to(cortes[0], { xPercent: -50, yPercent: -50, rotation: -25, opacity: 0, duration: 1, force3D: true }, index + 1);
+                                            tlImg.to(cortes[1], { xPercent: 50, yPercent: 50, rotation: 25, opacity: 0, duration: 1, force3D: true }, index + 1);
+                                        }
+                                    } else if (isZoom) {
+                                        tlImg.to(img, { scale: 0.8, opacity: 0, duration: 1, force3D: true }, index + 1);
+                                    } else if (isSlide) {
+                                        tlImg.to(img, { xPercent: -100, opacity: 0, duration: 1, force3D: true }, index + 1);
+                                    } else {
+                                        tlImg.to(img, { opacity: 0, duration: 1, force3D: true }, index + 1);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                const lineaCentro = document.getElementById('linea-centro');
+                if (lineaCentro) {
+                    gsap.to(lineaCentro, {
+                        scrollTrigger: {
+                            trigger: timelineContainer,
+                            start: "top 50%",
+                            end: "bottom 50%",
+                            scrub: true,
+                        },
+                        height: "100%", 
+                        ease: "none",
+                        force3D: true
+                    });
+                }
+            },
+
+            initSpotlight() {
+                /* --- SPOTLIGHT MOUSE --- */
+                const cronograma = document.getElementById('cronograma');
+                
+                // OPTIMIZACIÓN DE HARDWARE: matchMedia("(pointer: fine)") 
+                // Evita que el celular gaste recursos intentando procesar un evento de mouse que no existe en pantallas táctiles.
+                if (cronograma && window.matchMedia("(pointer: fine)").matches) {
+                    let rafId = null; // Para patrón Throttling
+                    
+                    cronograma.addEventListener('mousemove', (e) => {
+                        // PATRÓN THROTTLING: Limita los cálculos al framerate del monitor usando requestAnimationFrame
+                        if (!rafId) {
+                            rafId = requestAnimationFrame(() => {
+                                const rect = cronograma.getBoundingClientRect();
+                                cronograma.style.setProperty('--mouse-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+                                cronograma.style.setProperty('--mouse-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+                                rafId = null;
+                            });
+                        }
+                    }, { passive: true }); // passive: true indica al navegador que esto no interrumpe el scroll
+                }
+            }
+        };
+
+        // Arrancamos todo el módulo de forma segura
+        App.init();
+
     });
 </script>
+<!-- ... existing code ... -->
 </body>
 </html>
