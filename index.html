@@ -848,11 +848,6 @@
             const panels = gsap.utils.toArray('.candidato-panel');
             const panelsLen = panels.length; 
 
-            // 🚀 OPTIMIZACIÓN DE IMÁGENES: Aceleración por GPU
-            // Le decimos al celular que reserve memoria de video para las fotos ANTES de que se muevan.
-            const allImages = pinSection.querySelectorAll('.cand-img');
-            gsap.set(allImages, { willChange: "transform, opacity", force3D: true });
-
             let mm = gsap.matchMedia();
 
             mm.add({
@@ -861,83 +856,202 @@
             }, (context) => {
                 let { isMobile } = context.conditions;
 
-                // En móviles, hacemos la pista virtual de scroll un poco más corta para que pase más rápido
-                const scrollDist = isMobile ? panelsLen * 900 : panelsLen * 1200;
+                if (isDesktop) {
+                    // =======================================================
+                    // LÓGICA PC: Se mantiene el scroll interactivo (Tienen GPU fuerte)
+                    // =======================================================
+                    const allImages = pinSection.querySelectorAll('.cand-img');
+                    gsap.set(allImages, { willChange: "transform, opacity", force3D: true });
 
-                let tlCandidatos = gsap.timeline({
-                    scrollTrigger: {
+                    const scrollDist = panelsLen * 1200;
+
+                    let tlCandidatos = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: pinSection,
+                            pin: true,
+                            scrub: 1, 
+                            end: () => "+=" + scrollDist,
+                            onUpdate: (self) => { progressBar.style.width = (self.progress * 100) + "%"; },
+                            
+                            // Caché Visual de seguridad
+                            onLeave: () => gsap.set(pinSection, { visibility: "hidden" }),
+                            onEnterBack: () => gsap.set(pinSection, { visibility: "visible" }),
+                            onLeaveBack: () => gsap.set(pinSection, { visibility: "hidden" }),
+                            onEnter: () => gsap.set(pinSection, { visibility: "visible" })
+                        }
+                    });
+
+                    panels.forEach((panel, i) => {
+                        const images = panel.querySelectorAll('.cand-img');
+                        const imgLen = images.length;
+
+                        if (imgLen > 1) {
+                            for (let j = 0; j < imgLen - 1; j++) {
+                                tlCandidatos.to({}, { duration: 0.2 });
+                                tlCandidatos.to(images[j], { scale: 1.2, opacity: 0, duration: 1, ease: "power2.inOut", force3D: true }, "trans_" + i + "_" + j);
+                                tlCandidatos.to(images[j+1], { scale: 1, opacity: 1, duration: 1, ease: "power2.out", force3D: true }, "trans_" + i + "_" + j);
+                            }
+                        }
+
+                        if (i < panelsLen - 1) {
+                            tlCandidatos.to({}, { duration: 0.4 });
+                            tlCandidatos.to(track, { x: `-${(i + 1) * 100}vw`, ease: "power2.inOut", duration: 1.5, force3D: true });
+                        }
+                    });
+
+                    return () => { }; // Cleanup automático
+                } else {
+                    // =======================================================
+                    // LÓGICA MÓVIL: Bloqueo de Scroll, Cero GPU pesada, Solo Taps.
+                    // =======================================================
+                    let currentPanelIdx = 0;
+                    let currentImgIdx = 0;
+                    let isCompleted = false; // Bandera para saber si ya vio todo
+                    
+                    const indicator = pinSection.querySelector('.swipe-indicator');
+                    if (indicator) indicator.innerHTML = "Toca para ver candidatos <span>👆</span>";
+
+                    // 1. AHORRO MASIVO DE RAM: 
+                    panels.forEach((panel, pIdx) => {
+                        const imgs = panel.querySelectorAll('.cand-img');
+                        gsap.set(imgs, { 
+                            autoAlpha: (i) => (pIdx === 0 && i === 0) ? 1 : 0, 
+                            scale: 1 
+                        });
+                    });
+
+                    // Caché visual ultra-ligera
+                    let stCulling = ScrollTrigger.create({
                         trigger: pinSection,
-                        pin: true,
-                        // En móvil reacciona más rápido (0.5), en PC más suave (1)
-                        scrub: isMobile ? 0.5 : 1, 
-                        end: () => "+=" + scrollDist,
-                        onUpdate: (self) => { progressBar.style.width = (self.progress * 100) + "%"; },
-                        
-                        // 🚀 CACHÉ VISUAL: Apaga la sección cuando el usuario ya la pasó
+                        start: "top bottom",
+                        end: "bottom top",
                         onLeave: () => gsap.set(pinSection, { visibility: "hidden" }),
                         onEnterBack: () => gsap.set(pinSection, { visibility: "visible" }),
                         onLeaveBack: () => gsap.set(pinSection, { visibility: "hidden" }),
                         onEnter: () => gsap.set(pinSection, { visibility: "visible" })
-                    }
-                });
+                    });
 
-                panels.forEach((panel, i) => {
-                    const images = panel.querySelectorAll('.cand-img');
-                    const imgLen = images.length;
-
-                    if (imgLen > 1) {
-                        for (let j = 0; j < imgLen - 1; j++) {
-                            tlCandidatos.to({}, { duration: 0.2 });
-                            // Animación más pequeña en móvil (scale 1.1) para evitar lag
-                            tlCandidatos.to(images[j], { scale: isMobile ? 1.1 : 1.2, opacity: 0, duration: 1, ease: "power2.inOut", force3D: true }, "trans_" + i + "_" + j);
-                            tlCandidatos.to(images[j+1], { scale: 1, opacity: 1, duration: 1, ease: "power2.out", force3D: true }, "trans_" + i + "_" + j);
+                    // 🚀 2. MAGIA DE BLOQUEO DE SCROLL (Force View)
+                    let stLock = ScrollTrigger.create({
+                        trigger: pinSection,
+                        start: "top top", // Justo cuando el techo de la sección toca el techo de la pantalla
+                        onEnter: () => {
+                            // Si aún no ha visto a todos los candidatos, lo encerramos
+                            if (!isCompleted) {
+                                // Detenemos el scroll de Lenis (si existe) y bloqueamos el body
+                                if (window.lenis) {
+                                    window.lenis.stop();
+                                    // Acomodamos la cámara perfecta
+                                    window.lenis.scrollTo(pinSection, { duration: 0.5, force: true });
+                                } else {
+                                    document.body.style.overflow = 'hidden';
+                                }
+                                
+                                // Animamos el indicador para que entienda que debe tocar
+                                if (indicator) {
+                                    gsap.fromTo(indicator, { scale: 1 }, { scale: 1.15, color: "#ffeb3b", duration: 0.4, yoyo: true, repeat: 3 });
+                                }
+                            }
                         }
-                    }
+                    });
 
-                    if (i < panelsLen - 1) {
-                        tlCandidatos.to({}, { duration: 0.4 });
-                        tlCandidatos.to(track, { x: `-${(i + 1) * 100}vw`, ease: "power2.inOut", duration: 1.5, force3D: true });
+                    // Progreso súper exacto contando cada fotografía
+                    function updateProgress() {
+                        let totalPhotos = 0;
+                        let photosPassed = 0;
+                        panels.forEach((panel, pIdx) => {
+                            const num = panel.querySelectorAll('.cand-img').length;
+                            totalPhotos += num;
+                            if (pIdx < currentPanelIdx) photosPassed += num;
+                            else if (pIdx === currentPanelIdx) photosPassed += currentImgIdx;
+                        });
+                        const progress = ((photosPassed + 1) / totalPhotos) * 100;
+                        if(progressBar) progressBar.style.width = progress + "%";
                     }
-                });
+                    
+                    updateProgress();
 
-                // 🚀 MAGIA UX MÓVIL: Tocar la pantalla para avanzar
-                let tapListener;
-                if (isMobile) {
-                    tapListener = (e) => {
-                        // Evita disparar el scroll si el usuario tocó un enlace o botón real
+                    // 3. SISTEMA TAP-TO-ADVANCE (Avanza, y finalmente libera)
+                    const tapListener = (e) => {
                         if(e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'button') return;
-                        
-                        // Verificamos que Lenis y ScrollTrigger existan
-                        if (window.lenis && tlCandidatos.scrollTrigger) {
-                            const st = tlCandidatos.scrollTrigger;
-                            const currentScroll = window.scrollY;
+
+                        const activePanel = panels[currentPanelIdx];
+                        const imgs = activePanel.querySelectorAll('.cand-img');
+                        const totalImgs = imgs.length;
+
+                        // CASO A: Cambiar foto dentro del mismo candidato
+                        if (currentImgIdx < totalImgs - 1) {
+                            const current = imgs[currentImgIdx];
+                            const next = imgs[currentImgIdx + 1];
+
+                            gsap.set([current, next], { willChange: "transform, opacity", force3D: true });
+                            gsap.to(current, { autoAlpha: 0, scale: 1.05, duration: 0.35, ease: "power2.inOut" });
+                            gsap.to(next, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out", onComplete: () => {
+                                gsap.set([current, next], { willChange: "auto" }); 
+                            }});
+
+                            currentImgIdx++;
+                            updateProgress();
+                        } 
+                        // CASO B: Cambiar al siguiente candidato
+                        else if (currentPanelIdx < panelsLen - 1) {
+                            currentPanelIdx++;
+                            currentImgIdx = 0;
+
+                            const nextPanelImgs = panels[currentPanelIdx].querySelectorAll('.cand-img');
+                            gsap.set(nextPanelImgs[0], { autoAlpha: 1, scale: 1 });
+
+                            gsap.set(track, { willChange: "transform", force3D: true });
+                            gsap.to(track, { 
+                                x: `-${currentPanelIdx * 100}vw`, 
+                                duration: 0.45, 
+                                ease: "power2.out",
+                                onComplete: () => gsap.set(track, { willChange: "auto" })
+                            });
                             
-                            // Si estamos viendo la sección de candidatos actualmente
-                            if (currentScroll >= st.start && currentScroll <= st.end) {
-                                // Al tocar, simulamos un scroll hacia abajo del 80% de la pantalla
-                                // Esto mueve la animación fluidamente al siguiente dato/imagen
-                                let nextScroll = currentScroll + (window.innerHeight * 0.8);
+                            updateProgress();
+                        } 
+                        // 🚀 CASO C: Terminó de ver a todos (LIBERACIÓN DE SCROLL)
+                        else {
+                            if (!isCompleted) {
+                                isCompleted = true; // Marca como completado para que no lo vuelva a bloquear
                                 
-                                // Evitamos pasarnos del final de la sección
-                                if (nextScroll > st.end) nextScroll = st.end;
+                                // ¡LIBERAMOS EL SCROLL!
+                                if (window.lenis) window.lenis.start();
+                                document.body.style.overflow = '';
                                 
-                                // Usamos Lenis para hacer el "auto-scroll" súper suave
-                                window.lenis.scrollTo(nextScroll, { 
-                                    duration: 1.2, 
-                                    ease: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) 
-                                });
+                                if (indicator) indicator.innerHTML = "¡Completado! Continúa <span>👇</span>";
+
+                                // Hacemos un pequeño scroll automático hacia abajo para indicarle que ya puede seguir
+                                if (window.lenis) {
+                                    window.lenis.scrollTo(pinSection.offsetTop + pinSection.offsetHeight + 80, { duration: 1.2 });
+                                } else {
+                                    window.scrollBy({ top: 150, behavior: 'smooth' });
+                                }
+                            } else {
+                                // Si toca otra vez después de ser liberado, solo da un rebote de feedback
+                                gsap.to(track, { x: `calc(-${currentPanelIdx * 100}vw - 12px)`, duration: 0.15, yoyo: true, repeat: 1 });
                             }
                         }
                     };
-                    
-                    // Solo agregamos el evento de click en celulares
-                    pinSection.addEventListener('click', tapListener);
-                }
 
-                return () => { 
-                    // Limpiamos memoria si el usuario rota la pantalla a horizontal (cambia a Desktop)
-                    if (tapListener) pinSection.removeEventListener('click', tapListener);
-                };
+                    pinSection.addEventListener('click', tapListener);
+
+                    // Limpieza segura
+                    return () => { 
+                        if(indicator) indicator.innerHTML = "Scroll / Swipe <span>→</span>";
+                        pinSection.removeEventListener('click', tapListener);
+                        if (stCulling) stCulling.kill();
+                        if (stLock) stLock.kill();
+                        
+                        // Seguro anti-bugs: Si rota la pantalla a escritorio, desbloquea todo forzosamente
+                        if (window.lenis) window.lenis.start();
+                        document.body.style.overflow = '';
+                        
+                        gsap.set('.cand-img', { clearProps: "all" });
+                        gsap.set(track, { clearProps: "all" });
+                    };
+                }
             });
         });
     </script>
