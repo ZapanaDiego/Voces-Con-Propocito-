@@ -780,19 +780,49 @@
             const heroSection = document.getElementById('hero');
             if (!heroSection) return;
 
-            let tlHero = gsap.timeline({ 
-                scrollTrigger: { 
-                    trigger: "#hero", 
-                    start: "top top", 
-                    end: "bottom top", 
-                    scrub: true 
-                }
+            // OPTIMIZACIÓN 1: Preparamos los elementos para usar aceleración por hardware.
+            // willChange le avisa a la GPU del celular que reserve memoria para estos elementos.
+            gsap.set(['#hero-bg', '#hero-2026', '#hero-fg', '#hero-title'], { 
+                willChange: "transform, opacity",
+                force3D: true 
             });
-            
-            tlHero.to('#hero-bg', { yPercent: 20, ease: "none", force3D: true }, 0);
-            tlHero.to('#hero-2026', { yPercent: -50, opacity: 0, ease: "none", force3D: true }, 0); 
-            tlHero.to('#hero-fg', { yPercent: -15, ease: "none", force3D: true }, 0);
-            tlHero.to('#hero-title', { y: -200, opacity: 0, scale: 0.9, ease: "none", force3D: true }, 0);
+
+            // OPTIMIZACIÓN 2: matchMedia de GSAP para crear reglas distintas en celular vs PC
+            let mm = gsap.matchMedia();
+
+            mm.add({
+                isMobile: "(max-width: 768px)",
+                isDesktop: "(min-width: 769px)"
+            }, (context) => {
+                let { isMobile } = context.conditions;
+
+                let tlHero = gsap.timeline({ 
+                    scrollTrigger: { 
+                        trigger: "#hero", 
+                        start: "top top", 
+                        end: "bottom top", 
+                        // OPTIMIZACIÓN 3: En celulares agregamos una interpolación de 1 segundo.
+                        // Esto absorbe los "saltos" del scroll en procesadores lentos y lo hace fluido.
+                        scrub: isMobile ? 1 : true, 
+                    }
+                });
+                
+                // OPTIMIZACIÓN 4: Distancias dinámicas.
+                // En móviles movemos menos los objetos para reducir el área de repintado de la pantalla.
+                const moveBg = isMobile ? 10 : 20;
+                const move2026 = isMobile ? -25 : -50;
+                const moveFg = isMobile ? -8 : -15;
+                const moveTitle = isMobile ? -100 : -200;
+
+                tlHero.to('#hero-bg', { yPercent: moveBg, ease: "none" }, 0);
+                tlHero.to('#hero-2026', { yPercent: move2026, opacity: 0, ease: "none" }, 0); 
+                tlHero.to('#hero-fg', { yPercent: moveFg, ease: "none" }, 0);
+                tlHero.to('#hero-title', { y: moveTitle, opacity: 0, scale: isMobile ? 0.95 : 0.9, ease: "none" }, 0);
+
+                return () => { 
+                    // Se ejecuta al desmontar (limpia memoria si el usuario rota la pantalla)
+                };
+            });
         });
     </script>
 
