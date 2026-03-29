@@ -1655,15 +1655,18 @@
             const panelsLen = panels.length;
             let totalPhotos = 0;
 
-            // OPTIMIZACIÓN DE MEMORIA: display: none (autoAlpha: 0) a todo lo que no se ve
-            // para que el navegador libere VRAM en celulares de gama baja
-            panels.forEach((panel, pIdx) => {
-                const imgs = panel.querySelectorAll('.cand-img');
+            // OPTIMIZACIÓN 1: Cacheamos todas las imágenes en RAM (un Array)
+            // Esto evita que el celular haga procesos de búsqueda de nodos (querySelectorAll) al hacer tap
+            const panelImages = [];
+
+            panels.forEach((panel) => {
+                const imgs = gsap.utils.toArray(panel.querySelectorAll('.cand-img'));
+                panelImages.push(imgs);
                 totalPhotos += imgs.length;
                 
-                // Content-visibility ayuda a navegadores modernos a no renderizar el bloque
-                panel.style.contentVisibility = "auto"; 
-                
+                // CORRECCIÓN DEL PARPADEO/IMAGEN NEGRA:
+                // La primera imagen (i === 0) de CADA PANEL inicia visible.
+                // Las demás inician ocultas (autoAlpha: 0) liberando GPU al navegador.
                 gsap.set(imgs, { autoAlpha: (i) => i === 0 ? 1 : 0 });
             });
 
@@ -1674,18 +1677,28 @@
 
             const indicator = pinSection.querySelector('.swipe-indicator');
 
+            // OPTIMIZACIÓN MATEMÁTICA: Evitamos recalcular la división en cada toque
+            const progressMultiplier = totalPhotos > 0 ? (100 / totalPhotos) : 0;
+
             function updateProgress() {
                 if (progressBar) {
-                    let progress = ((photosPassed + 1) / totalPhotos) * 100;
-                    progressBar.style.width = progress + "%";
+                    progressBar.style.width = ((photosPassed + 1) * progressMultiplier) + "%";
                 }
             }
             updateProgress();
 
+            // MEJORA 2: Bloqueo agresivo sin salto
             const lockScroll = () => { 
-                if (window.lenis) window.lenis.stop(); 
-                else document.body.style.overflow = "hidden"; // Fallback para low-end
+                const targetY = pinSection.offsetTop;
+                if (window.lenis) {
+                    window.lenis.stop(); // Frena de golpe la inercia del scroll
+                    window.scrollTo({ top: targetY, behavior: "instant" }); // Acomodo estricto y sin demora
+                } else {
+                    document.body.style.overflow = "hidden"; // Fallback para low-end
+                    window.scrollTo({ top: targetY, behavior: "instant" });
+                }
             };
+            
             const unlockScroll = () => { 
                 if (window.lenis) window.lenis.start(); 
                 else document.body.style.overflow = ""; 
@@ -1693,19 +1706,14 @@
 
             ScrollTrigger.create({
                 trigger: pinSection,
-                start: "top top", 
+                // MEJORA 1: Atrapa el trigger un 10% ANTES de chocar con el borde para vencer la inercia
+                start: "top 10%", 
                 fastScrollEnd: true,
                 onEnter: (self) => {
                     if (!isCompleted && self.direction === 1) {
                         lockScroll();
                         
-                        if (window.lenis) {
-                            window.lenis.scrollTo(pinSection, { force: true, immediate: true });
-                        } else {
-                            window.scrollTo({ top: pinSection.offsetTop });
-                        }
-                        
-                        if (indicator && !window.devicePerf.isExtremeLowEnd) {
+                        if (indicator && window.devicePerf && !window.devicePerf.isExtremeLowEnd) {
                             gsap.fromTo(indicator, { scale: 1 }, { scale: 1.05, duration: 0.6, yoyo: true, repeat: -1, ease: "sine.inOut" });
                         }
                     }
@@ -1718,8 +1726,8 @@
             const tapListener = (e) => {
                 if (isCompleted) return;
 
-                const activePanel = panels[currentPanelIdx];
-                const imgs = activePanel.querySelectorAll('.cand-img');
+                // Accedemos al Array en RAM (costo 0 de rendimiento)
+                const imgs = panelImages[currentPanelIdx];
 
                 if (currentImgIdx < imgs.length - 1) {
                     const current = imgs[currentImgIdx];
@@ -1738,10 +1746,12 @@
                     currentImgIdx = 0;
                     photosPassed++;
 
+                    const isLowEnd = window.devicePerf ? window.devicePerf.isLowEnd : false;
+
                     // Deslizamiento lateral liviano
                     gsap.to(track, { 
                         x: `-${currentPanelIdx * 100}vw`, 
-                        duration: window.devicePerf.isLowEnd ? 0.3 : 0.5, 
+                        duration: isLowEnd ? 0.3 : 0.5, 
                         ease: "power1.out" 
                     });
                     
@@ -1760,12 +1770,18 @@
                         gsap.to(indicator, { backgroundColor: "rgba(45, 57, 131, 0.9)", color: "white", duration: 0.3 });
                     }
 
+                    const isLowEnd = window.devicePerf ? window.devicePerf.isLowEnd : false;
+
+                    // MEJORA 3: Último toque más veloz para gama baja
                     if (window.lenis) {
-                        window.lenis.scrollTo(pinSection.offsetTop + pinSection.offsetHeight + 100, { duration: 1.2, ease: "power2.out" });
+                        window.lenis.scrollTo(pinSection.offsetTop + pinSection.offsetHeight + 100, { 
+                            duration: isLowEnd ? 0.6 : 1.2, // 0.6s hace que sea directo en móviles de gama baja
+                            ease: isLowEnd ? "power1.out" : "power2.out" 
+                        });
+                    } else {
+                        // Fallback absoluto nativo
+                        window.scrollBy({ top: 150, behavior: "smooth" });
                     }
-                    
-                    // Liberar memoria (Opcional): remover imgs pasadas
-                    // Array.from(panels).slice(0, panelsLen-1).forEach(p => p.innerHTML = '');
                 }
             };
 
