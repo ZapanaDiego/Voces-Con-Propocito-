@@ -1772,15 +1772,18 @@
 
                     const isLowEnd = window.devicePerf ? window.devicePerf.isLowEnd : false;
 
-                    // MEJORA 3: Último toque más veloz para gama baja
+                    // MEJORA 3: Último toque con mayor impulso hacia el cronograma
+                    // Calculamos un salto extra equivalente al 60% del alto de la pantalla (o 500px por defecto)
+                    const saltoExtra = window.innerHeight ? (window.innerHeight * 0.6) : 400;
+
                     if (window.lenis) {
-                        window.lenis.scrollTo(pinSection.offsetTop + pinSection.offsetHeight + 100, { 
+                        window.lenis.scrollTo(pinSection.offsetTop + pinSection.offsetHeight + saltoExtra, { 
                             duration: isLowEnd ? 0.6 : 1.2, // 0.6s hace que sea directo en móviles de gama baja
                             ease: isLowEnd ? "power1.out" : "power2.out" 
                         });
                     } else {
-                        // Fallback absoluto nativo
-                        window.scrollBy({ top: 150, behavior: "smooth" });
+                        // Fallback absoluto nativo con el salto extra
+                        window.scrollBy({ top: saltoExtra, behavior: "smooth" });
                     }
                 }
             };
