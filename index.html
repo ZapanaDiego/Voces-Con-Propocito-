@@ -1531,79 +1531,74 @@
     </div>
 
 
-    <section id="descargables"
-        style="padding: 2rem 1.5rem 5rem 1.5rem; background-color: var(--papel); display: flex; justify-content: center; position: relative; z-index: 10;">
-        <div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center;">
-
-            <!-- Título SIN opacity:0. Siempre visible por defecto -->
-            <h2 class="descargas-titulo"
-                style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); color: var(--azul); margin-bottom: 2rem; text-align: center;">
-                Documentos del Evento
-            </h2>
-
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%;">
-
-                <!-- BOTÓN 1: Programa (SIN opacity: 0) -->
-                <a href="https://drive.google.com/file/d/1wsUgA0baKkGS_iYTthNKHsDX8ETiqIuq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-descarga"
-                    style="display: flex; align-items: flex-start; background-color: var(--blanco); border: 2px solid transparent; border-radius: 20px; padding: 1.5rem; text-decoration: none; color: var(--negro); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; cursor: pointer;"
-                    onmouseenter="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)'; this.style.borderColor='rgba(45, 57, 131, 0.2)'; this.children[0].style.backgroundColor='var(--azul)'; this.children[0].style.color='var(--blanco)'; this.children[0].style.transform='scale(1.05) rotate(-5deg)';"
-                    onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.04)'; this.style.borderColor='transparent'; this.children[0].style.backgroundColor='rgba(45, 57, 131, 0.05)'; this.children[0].style.color='var(--azul)'; this.children[0].style.transform='none';"
-                    onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)';"
-                    onmouseup="this.style.transform='translateY(-5px) scale(1)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)';">
-
-                    <div
-                        style="flex-shrink: 0; width: 60px; height: 60px; background-color: rgba(45, 57, 131, 0.05); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.2rem; color: var(--azul); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
-                    </div>
-                    <div style="display: flex; flex-direction: column;">
-                        <h3
-                            style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--azul); margin: 0 0 0.5rem 0; line-height: 1.2;">
-                            Brochure Oficial</h3>
-                        <p
-                            style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--gris); margin: 0; line-height: 1.5;">
-                            Descarga el brochure completo con toda la información.</p>
-                    </div>
-                </a>
-
-                <!-- BOTÓN 2: Materiales (SIN opacity: 0) -->
-                <a href="https://drive.google.com/file/d/11_W-AjOHDzl6-KGy9-33w3YVo-SF0ANu/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-descarga"
-                    style="display: flex; align-items: flex-start; background-color: var(--blanco); border: 2px solid transparent; border-radius: 20px; padding: 1.5rem; text-decoration: none; color: var(--negro); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; cursor: pointer;"
-                    onmouseenter="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)'; this.style.borderColor='rgba(45, 57, 131, 0.2)'; this.children[0].style.backgroundColor='var(--azul)'; this.children[0].style.color='var(--blanco)'; this.children[0].style.transform='scale(1.05) rotate(-5deg)';"
-                    onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.04)'; this.style.borderColor='transparent'; this.children[0].style.backgroundColor='rgba(45, 57, 131, 0.05)'; this.children[0].style.color='var(--azul)'; this.children[0].style.transform='none';"
-                    onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)';"
-                    onmouseup="this.style.transform='translateY(-5px) scale(1)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)';">
-
-                    <div
-                        style="flex-shrink: 0; width: 60px; height: 60px; background-color: rgba(45, 57, 131, 0.05); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.2rem; color: var(--azul); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div style="display: flex; flex-direction: column;">
-                        <h3
-                            style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--azul); margin: 0 0 0.5rem 0; line-height: 1.2;">
-                            Reglamento del Debate</h3>
-                        <p
-                            style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--gris); margin: 0; line-height: 1.5;">
-                            Accede al reglamento completo del debate.</p>
-                    </div>
-                </a>
-
+    <!-- NOTA: margin-top negativo (-100px) y z-index (99) hacen que se superponga -->
+<section id="descargables" style="
+    margin-top: -100px; 
+    position: relative; 
+    z-index: 99; 
+    padding: 5rem 1.5rem 6rem 1.5rem; 
+    background-color: var(--papel); 
+    border-radius: 40px 40px 0 0; 
+    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.05);
+    display: flex; 
+    justify-content: center;
+">
+    <div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center;">
+        
+        <h2 class="descargas-titulo" style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); color: var(--azul); margin-bottom: 3rem; text-align: center;">
+            Documentos del Evento
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%;">
+            
+            <!-- BOTÓN 1: Programa -->
+            <!-- translateZ(0) y backface-visibility obligan al navegador a renderizar sin errores -->
+            <a href="https://drive.google.com/file/d/1B5TOauEUH5gnF4zlmjfSXaz3mjGZWO4K/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="btn-descarga"
+               style="display: flex; align-items: flex-start; background-color: var(--blanco); border: 2px solid transparent; border-radius: 20px; padding: 1.5rem; text-decoration: none; color: var(--negro); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; cursor: pointer; transform: translateZ(0); -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: transform, opacity;"
+               onmouseenter="this.style.transform='translateY(-5px) translateZ(0)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)'; this.style.borderColor='rgba(45, 57, 131, 0.2)'; this.children[0].style.backgroundColor='var(--azul)'; this.children[0].style.color='var(--blanco)'; this.children[0].style.transform='scale(1.05) rotate(-5deg)';"
+               onmouseleave="this.style.transform='translateY(0) translateZ(0)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.04)'; this.style.borderColor='transparent'; this.children[0].style.backgroundColor='rgba(45, 57, 131, 0.05)'; this.children[0].style.color='var(--azul)'; this.children[0].style.transform='none';"
+               onmousedown="this.style.transform='translateY(2px) scale(0.97) translateZ(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)';"
+               onmouseup="this.style.transform='translateY(-5px) scale(1) translateZ(0)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)';">
                 
+                <div style="flex-shrink: 0; width: 60px; height: 60px; background-color: rgba(45, 57, 131, 0.05); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.2rem; color: var(--azul); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <h3 style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--azul); margin: 0 0 0.5rem 0; line-height: 1.2;">BROCHURE II DEBATE VOCES CON PROPÓSITO Oficial</h3>
 
-            </div>
+                    <p style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--gris); margin: 0; line-height: 1.5;">Descarga el BROCHURE completo.</p>
+                </div>
+            </a>
+
+            <!-- BOTÓN 2: Materiales -->
+            <a href="https://drive.google.com/file/d/11_W-AjOHDzl6-KGy9-33w3YVo-SF0ANu/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-descarga"
+               style="display: flex; align-items: flex-start; background-color: var(--blanco); border: 2px solid transparent; border-radius: 20px; padding: 1.5rem; text-decoration: none; color: var(--negro); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; cursor: pointer; transform: translateZ(0); -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: transform, opacity;"
+               onmouseenter="this.style.transform='translateY(-5px) translateZ(0)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)'; this.style.borderColor='rgba(45, 57, 131, 0.2)'; this.children[0].style.backgroundColor='var(--azul)'; this.children[0].style.color='var(--blanco)'; this.children[0].style.transform='scale(1.05) rotate(-5deg)';"
+               onmouseleave="this.style.transform='translateY(0) translateZ(0)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.04)'; this.style.borderColor='transparent'; this.children[0].style.backgroundColor='rgba(45, 57, 131, 0.05)'; this.children[0].style.color='var(--azul)'; this.children[0].style.transform='none';"
+               onmousedown="this.style.transform='translateY(2px) scale(0.97) translateZ(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)';"
+               onmouseup="this.style.transform='translateY(-5px) scale(1) translateZ(0)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)';">
+                
+                <div style="flex-shrink: 0; width: 60px; height: 60px; background-color: rgba(45, 57, 131, 0.05); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.2rem; color: var(--azul); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <h3 style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--azul); margin: 0 0 0.5rem 0; line-height: 1.2;">REGLAMENTO DEL DEBATE PARA ASISTENTES</h3>
+                    <p style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--gris); margin: 0; line-height: 1.5;">Accede al reglamento del debate para asistentes.</p>
+                </div>
+            </a>
+
+
         </div>
-    </section>
+    </div>
+</section>
     <!-- FOOTER REVEAL -->
     <footer class="footer-reveal">
         <div class="footer-logo">Voces con <span>Propósito</span></div>
@@ -2246,41 +2241,54 @@
         });
     </script>
 
-    <!-- Script Corregido -->
-    <script>
-        // Usamos el mismo evento "arrancarResto" que usa tu cronograma
-        document.addEventListener("arrancarResto", () => {
+    <!-- Script Optimizado con Retardo de Render y Limpieza GSAP -->
+<script>
+    document.addEventListener("arrancarResto", () => {
+        // Un pequeño setTimeout de 50ms da tiempo al navegador a construir el DOM forzado
+        // antes de que GSAP intente calcular sus posiciones iniciales.
+        setTimeout(() => {
             if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
 
-                // gsap.from() hace que si el script funciona, los oculte y los anime. 
-                // Si el script falla, simplemente se quedarán visibles.
-                gsap.from(".descargas-titulo", {
-                    scrollTrigger: {
-                        trigger: "#descargables",
-                        start: "top 95%",
-                    },
-                    y: 15,
-                    autoAlpha: 0,
-                    duration: 0.6,
-                    ease: "power2.out"
-                });
+                // Título animado
+                gsap.fromTo(".descargas-titulo", 
+                    { y: 20, autoAlpha: 0 },
+                    {
+                        scrollTrigger: {
+                            trigger: "#descargables",
+                            start: "top 95%", 
+                        },
+                        y: 0,
+                        autoAlpha: 1, 
+                        duration: 0.6,
+                        ease: "power2.out",
+                        clearProps: "all" // Limpiamos para evitar problemas residuales
+                    }
+                );
 
-                gsap.from(".btn-descarga", {
-                    scrollTrigger: {
-                        trigger: "#descargables",
-                        start: "top 92%",
-                    },
-                    y: 25,
-                    autoAlpha: 0,
-                    duration: 0.7,
-                    stagger: 0.1,
-                    ease: "back.out(1.2)"
-                });
-
+                // Botones animados
+                gsap.fromTo(".btn-descarga", 
+                    { y: 40, autoAlpha: 0 },
+                    {
+                        scrollTrigger: {
+                            trigger: "#descargables",
+                            start: "top 90%", // Empieza un poquito después del título
+                        },
+                        y: 0,
+                        autoAlpha: 1, 
+                        duration: 0.8,
+                        stagger: 0.15, 
+                        ease: "back.out(1.2)",
+                        // FUNDAMENTAL: Elimina los estilos en línea (transform) que pone GSAP
+                        // para que NO interfieran con los efectos :hover de CSS (traslación y escala)
+                        clearProps: "transform, opacity, visibility" 
+                    }
+                );
+                
                 ScrollTrigger.refresh();
             }
-        });
-    </script>
+        }, 50); 
+    });
+</script>
 </body>
 
 </html>
