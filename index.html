@@ -815,6 +815,23 @@
                 font-size: 1.2rem;
             }
         }
+
+        /* A partir de 1500px, el cronograma deja de estirarse y se centra */
+        @media (min-width: 1501px) {
+            #cronograma .timeline-container {
+                max-width: 1500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* A partir de tablets/PC se ponen en 3 columnas */
+        @media (min-width: 768px) {
+            .botones-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+        }
     </style>
 </head>
 
@@ -852,10 +869,31 @@
                 <div class="swipe-indicator">Toca para avanzar <span>👆</span></div>
 
                 <div class="candidatos-track" id="candidatos-track">
-                    <!-- COMENTARIO:
-                ========================================================
-                 ▶ PASO 1: PARA AGREGAR UN CANDIDATO COPIA DESDE AQUÍ 
-                ======================================================== -->
+                    <div class="candidato-panel">
+                        <div class="candidato-img-wrapper">
+                            <img src="./JesusVera/JesusVera02.jpeg" alt="Foto 1" class="cand-img" />
+                        </div>
+                        <div class="candidato-info">
+                            <span class="candidato-numero">01</span>
+                            <span class="partido-chip" style="background-color: #4f1b7f">Partido Morado</span>
+                            <h3>Jesús Vera Cruz</h3>
+                            <p class="candidato-desc">
+                                Soy Jesús Martín Vera Cruz, estudiante de Ingeniería Civil en
+                                la Universidad Católica San Pablo.
+                            </p>
+                            <p class="candidato-desc">
+                                He participado activamente en movilizaciones ciudadanas en
+                                defensa de la democracia.
+                            </p>
+                            <p class="candidato-desc">
+                                También formé parte de voluntariado de rescate animal ayudando
+                                a animales abandonados, y participé en recolectas solidarias
+                                para la lucha contra el cáncer. Creo en el compromiso social y
+                                en trabajar para construir una sociedad más justa
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="candidato-panel">
                         <div class="candidato-img-wrapper">
                             <!-- Puedes agregar 2 o más fotos. La animación las transiciona solas. -->
@@ -864,14 +902,19 @@
                             <img src="./Jose-Augusto-Jhonadan-Zevallos-Banda/jose.jpeg" alt="Foto 2" class="cand-img" />
                         </div>
                         <div class="candidato-info">
-                            <span class="candidato-numero">01</span>
+                            <span class="candidato-numero">02</span>
                             <span class="partido-chip" style="background-color: #28b227">Progresemos</span>
                             <h3>Jose Augusto Jhonadan Zevallos Banda</h3>
                             <p class="candidato-desc">
-                                Licenciado en Filosofía, Maestro en Gestión y Políticas
-                                Públicas, y Bachiller en Administración. Destaca por su
-                                versatilidad, al combinar su labor como docente universitario
-                                con una sólida trayectoria como especialista y asesor en
+                                José Zevallos Banda. Licenciado en Filosofía, Maestro en
+                                Gestión y Políticas Públicas.
+                            </p>
+                            <p class="candidato-desc">
+                                Bachiller en Administración. Destaca por su versatilidad, al
+                                combinar su labor como docente universitario
+                            </p>
+                            <p class="candidato-desc">
+                                Con una sólida trayectoria como especialista y asesor en
                                 gestión pública. Cuenta con experiencia liderando áreas de
                                 logística, abastecimiento y administración en diversas
                                 entidades gubernamentales.
@@ -883,33 +926,10 @@
                     <!-- Candidato 2 -->
                     <div class="candidato-panel">
                         <div class="candidato-img-wrapper">
-                            <img src="./RenzoAndreEstradaHuerta/RENZOFOTO(2).png" alt="Foto 1" class="cand-img" />
-                            <img src="./RenzoAndreEstradaHuerta/downloadgram.org_641960580_18350837788239311_3031344902481833866_n.webp"
-                                alt="Foto 2" class="cand-img" />
-                            <img src="./RenzoAndreEstradaHuerta/SaveClip.App_649211090_18351819835239311_7015406789135370212_n.jpg"
-                                alt="Foto 3" class="cand-img" />
-                        </div>
-                        <div class="candidato-info">
-                            <span class="candidato-numero">02</span>
-                            <span class="partido-chip" style="background-color: #144093">Avanza País
-                            </span>
-                            <h3>Renzo Andre Estrada Huerta</h3>
-                            <p class="candidato-desc">
-                                Licenciado en Derecho, líder político arequipeño y candidato a
-                                la Cámara de Diputados por Avanza País con el número 1 por
-                                Arequipa. Fundador del Frente Demócrata Arequipa y de la
-                                asociación Libertad Perú, promueve la participación ciudadana
-                                y el liderazgo juvenil. Reconocido como Parlamentario Joven
-                                del Bicentenario, impulsa una agenda en favor de la poblacion.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Candidato 3 (Ejemplo añadido para que veas que funciona dinámicamente) -->
-                    <div class="candidato-panel">
-                        <div class="candidato-img-wrapper">
-                            <img src="./HansArthurGodoyQuispe/IMG_1853-HansGodoyQuispe.jpg" alt="Foto 1"
+                            <img src="./HansArthurGodoyQuispe/HansGodoy02.jpeg" alt="Foto 1" class="cand-img" />
+                            <img src="./HansArthurGodoyQuispe/IMG_1853-HansGodoyQuispe.jpg" alt="Foto 2"
                                 class="cand-img" />
+                            <img src="./HansArthurGodoyQuispe/HansGodoy.jpeg" alt="Foto 3" class="cand-img" />
                         </div>
                         <div class="candidato-info">
                             <span class="candidato-numero">03</span>
@@ -918,59 +938,139 @@
                             <h3>Hans Arthur Godoy Quispe</h3>
                             <p class="candidato-desc">
                                 Hijo de migrantes, crecí en PPJJ Augusto Freyre de Hunter sin
-                                agua, luz, estudie derecho en la UNSA, maestría en Derecho
-                                Civil, especialista en derecho registral y notarial,
-                                microempresario en un emprendimiento familiar "Restaurant El
+                                agua, luz, estudie derecho en la Universidad Nacional de San
+                                Agustin.
+                            </p>
+                            <p class="candidato-desc">
+                                Maestría en Derecho Civil, especialista en derecho registral y
+                                notarial.
+                            </p>
+                            <p class="candidato-desc">
+                                Microempresario en un emprendimiento familiar "Restaurant El
                                 Arado". Luchador social presente en la defensa de las causas
                                 justas, defendiendo el Valle de Tambo, por una Nueva
-                                Constitución, contra la usurpadora Boluarte y otro
+                                Constitución, contra la usurpadora Boluarte y otro.
                             </p>
                         </div>
                     </div>
-                    <!-- Si deseas agregar 3 más (hasta tener 6), simplemente sigue pegando cajas <div class="candidato-panel">...</div> aquí dentro. El Javascript detectará automáticamente cuántos hay. -->
+
+                    <!-- Candidato 3 (Ejemplo añadido para que veas que funciona dinámicamente) -->
+
                     <div class="candidato-panel">
                         <div class="candidato-img-wrapper">
-                            <img src="./DanielErnestoVeraBallón/images_upscayl_2x_high-fidelity-4x.png" alt="Foto 1"
-                                class="cand-img" />
-                            <img src="./DanielErnestoVeraBallón/images.webp" alt="Foto 2" class="cand-img" />
+                            <img src="./RenzoAndreEstradaHuerta/RENZOFOTO(2).png" alt="Foto 1" class="cand-img" />
+                            <img src="./RenzoAndreEstradaHuerta/downloadgram.org_641960580_18350837788239311_3031344902481833866_n.webp"
+                                alt="Foto 2" class="cand-img" />
+                            <img src="./RenzoAndreEstradaHuerta/SaveClip.App_649211090_18351819835239311_7015406789135370212_n.jpg"
+                                alt="Foto 3" class="cand-img" />
                         </div>
                         <div class="candidato-info">
                             <span class="candidato-numero">04</span>
-                            <span class="partido-chip" style="background-color: #ea0808">APRA
+                            <span class="partido-chip" style="background-color: #144093">Avanza País
                             </span>
-                            <h3>Daniel Ernesto Vera Ballón</h3>
+                            <h3>Renzo Andre Estrada Huerta</h3>
                             <p class="candidato-desc">
-                                Ingeniero y político peruano. Fue el primer presidente
-                                regional de Arequipa (2003–2006) y diputado nacional
-                                (1990–1992). Actualmente es candidato a la Cámara de Diputados
-                                por Arequipa en las elecciones de 2026 y promueve proyectos
-                                estratégicos como el puerto de Corío para el desarrollo
-                                económico del sur, impulsando también la descentralización y
-                                la inversión regional.
+                                Renzo André Estrada Huerta es licenciado en Derecho, líder
+                                político arequipeño
+                            </p>
+                            <p class="candidato-desc">
+                                Candidato a la Cámara de Diputados por Avanza País con el
+                                número 1 por Arequipa.
+                            </p>
+                            <p class="candidato-desc">
+                                Fundador del Frente Demócrata Arequipa y de la asociación
+                                Libertad Perú, promueve la participación ciudadana y el
+                                liderazgo juvenil. Reconocido como Parlamentario Joven del
+                                Bicentenario, impulsa una agenda en favor de la poblacion.
                             </p>
                         </div>
                     </div>
 
                     <div class="candidato-panel">
                         <div class="candidato-img-wrapper">
-                            <img src="./ChristianAranda/ChristianAranda.png" alt="Foto 1" class="cand-img" />
-                            <img src="./ChristianAranda/downloadgram.org_643552407_18315034270266917_7164295721111718998_n.jpg"
-                                alt="Foto 2" class="cand-img" />
-                            <img src="./ChristianAranda/downloadgram.org_643582152_18315034135266917_7544977714655297635_n.jpg"
-                                alt="Foto 3" class="cand-img" />
+                            <img src="./DanielErnestoVeraBallón/DanielVera021.jpeg" alt="Foto 1" class="cand-img" />
+                            <img src="./DanielErnestoVeraBallón/DanielVeraPortada.jpeg" alt="Foto 2" class="cand-img" />
                         </div>
                         <div class="candidato-info">
                             <span class="candidato-numero">05</span>
-                            <span class="partido-chip" style="background-color: #0b76a0">Renovación Popular</span>
-                            <h3>Christian Aranda</h3>
+                            <span class="partido-chip" style="background-color: #ea0808">APRA
+                            </span>
+                            <h3>Daniel Ernesto Vera Ballón</h3>
                             <p class="candidato-desc">
-                                Político y emprendedor arequipeño. Estudió derecho en la
-                                Universidad La Salle. Maestría en gestión pública y políticas
-                                públicas en la Universidad San Pablo. Especializado en
-                                comunicación política y competencias políticas por la
-                                Fundación Konrad Adenahuer, Andrés Bello, American University
-                                y Political Notwork for Values. Presidente del Centro de
-                                Pensamiento Laureles.
+                                Daniel Vera Ballón es ingeniero y político peruano. Fue el
+                                primer presidente regional de Arequipa 2003–2006
+                            </p>
+                            <p class="candidato-desc">
+                                Diputado nacional (1990–1992). Actualmente es candidato a la
+                                Cámara de Diputados por Arequipa en las elecciones de 2026
+                            </p>
+                            <p class="candidato-desc">
+                                Promueve proyectos estratégicos como el puerto de Corío para
+                                el desarrollo económico del sur, impulsando también la
+                                descentralización y la inversión regional.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="candidato-panel">
+                        <div class="candidato-img-wrapper">
+                            <img src="./ArletteApaza/ArletteApaza01.jpeg" alt="Foto 1" class="cand-img" />
+                            <img src="./ArletteApaza/ArletteApaza02.jpeg" alt="Foto 2" class="cand-img" />
+                        </div>
+                        <div class="candidato-info">
+                            <span class="candidato-numero">06</span>
+                            <span class="partido-chip" style="background-color: #000000">PPP
+                            </span>
+                            <h3>Arlette Apaza Gordillo</h3>
+                            <p class="candidato-desc">
+                                Política arequipeña, licenciada en Eduación
+                                y Administración, e ingenieria informática,
+                                graduada en Italia.
+                            </p>
+                            <p class="candidato-desc">
+                                Maestría en gestión pública por la
+                                Universidad Autónoma de Barcelona y
+                                cursa estudios de doctorado
+                            </p>
+                            <p class="candidato-desc">
+                                Su labor parlamentaria se enfocará en
+                                jóvenes, mujeres y sectores vulnerable,
+                                promoviendo el desarrollo sostenible de la
+                                región.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="candidato-panel">
+                        <div class="candidato-img-wrapper">
+                            <img src="./ManuelDelgadoPostigo/ManuelDelgado01.jpeg" alt="Foto 1" class="cand-img" />
+                            <img src="./ManuelDelgadoPostigo/ManuelDelgado02.jpeg" alt="Foto 2" class="cand-img" />
+                            <img src="./ManuelDelgadoPostigo/ManuelDelgado03.jpeg" alt="Foto 3" class="cand-img" />
+                            <img src="./ManuelDelgadoPostigo/ManuelDelgado04.jpeg" alt="Foto 4" class="cand-img" />
+                        </div>
+                        <div class="candidato-info">
+                            <span class="candidato-numero">07</span>
+                            <span class="partido-chip" style="background-color: #d80f15">PPP
+                            </span>
+                            <h3>Manuel Delgado Postigo</h3>
+                            <p class="candidato-desc">
+                                Emprendedor en el rubro agrícola y
+                                abogado por la Universidad Católica San
+                                Pablo, especializado en Derecho
+                                Corporativo..
+                            </p>
+                            <p class="candidato-desc">
+                                Máster en Negocios Internacionales y
+                                Certificado en Gobierno e Innovación
+                                Pública.
+                            </p>
+                            <p class="candidato-desc">
+                                Mi lucha se resume en regresarle el foco
+                                de atención a la agricultura en nuestro
+                                país, liderar una transformación digital del
+                                Estado y poner a la juventud cómo el eje
+                                principal nuestra agenda.
                             </p>
                         </div>
                     </div>
@@ -1457,6 +1557,80 @@
         </div>
     </div>
 
+
+    <section id="descargables"
+        style="padding: 2rem 1.5rem 5rem 1.5rem; background-color: var(--papel); display: flex; justify-content: center; position: relative; z-index: 10;">
+        <div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center;">
+
+            <!-- Título SIN opacity:0. Siempre visible por defecto -->
+            <h2 class="descargas-titulo"
+                style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); color: var(--azul); margin-bottom: 2rem; text-align: center;">
+                Documentos del Evento
+            </h2>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%;">
+
+                <!-- BOTÓN 1: Programa (SIN opacity: 0) -->
+                <a href="https://drive.google.com/file/d/1wsUgA0baKkGS_iYTthNKHsDX8ETiqIuq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-descarga"
+                    style="display: flex; align-items: flex-start; background-color: var(--blanco); border: 2px solid transparent; border-radius: 20px; padding: 1.5rem; text-decoration: none; color: var(--negro); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; cursor: pointer;"
+                    onmouseenter="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)'; this.style.borderColor='rgba(45, 57, 131, 0.2)'; this.children[0].style.backgroundColor='var(--azul)'; this.children[0].style.color='var(--blanco)'; this.children[0].style.transform='scale(1.05) rotate(-5deg)';"
+                    onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.04)'; this.style.borderColor='transparent'; this.children[0].style.backgroundColor='rgba(45, 57, 131, 0.05)'; this.children[0].style.color='var(--azul)'; this.children[0].style.transform='none';"
+                    onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)';"
+                    onmouseup="this.style.transform='translateY(-5px) scale(1)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)';">
+
+                    <div
+                        style="flex-shrink: 0; width: 60px; height: 60px; background-color: rgba(45, 57, 131, 0.05); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.2rem; color: var(--azul); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <h3
+                            style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--azul); margin: 0 0 0.5rem 0; line-height: 1.2;">
+                            Brochure Oficial</h3>
+                        <p
+                            style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--gris); margin: 0; line-height: 1.5;">
+                            Descarga el brochure completo con toda la información.</p>
+                    </div>
+                </a>
+
+                <!-- BOTÓN 2: Materiales (SIN opacity: 0) -->
+                <a href="https://drive.google.com/file/d/11_W-AjOHDzl6-KGy9-33w3YVo-SF0ANu/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-descarga"
+                    style="display: flex; align-items: flex-start; background-color: var(--blanco); border: 2px solid transparent; border-radius: 20px; padding: 1.5rem; text-decoration: none; color: var(--negro); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; cursor: pointer;"
+                    onmouseenter="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)'; this.style.borderColor='rgba(45, 57, 131, 0.2)'; this.children[0].style.backgroundColor='var(--azul)'; this.children[0].style.color='var(--blanco)'; this.children[0].style.transform='scale(1.05) rotate(-5deg)';"
+                    onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.04)'; this.style.borderColor='transparent'; this.children[0].style.backgroundColor='rgba(45, 57, 131, 0.05)'; this.children[0].style.color='var(--azul)'; this.children[0].style.transform='none';"
+                    onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)';"
+                    onmouseup="this.style.transform='translateY(-5px) scale(1)'; this.style.boxShadow='0 15px 35px rgba(45, 57, 131, 0.1)';">
+
+                    <div
+                        style="flex-shrink: 0; width: 60px; height: 60px; background-color: rgba(45, 57, 131, 0.05); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.2rem; color: var(--azul); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <h3
+                            style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--azul); margin: 0 0 0.5rem 0; line-height: 1.2;">
+                            Reglamento del Debate</h3>
+                        <p
+                            style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--gris); margin: 0; line-height: 1.5;">
+                            Accede al reglamento completo del debate.</p>
+                    </div>
+                </a>
+
+                
+
+            </div>
+        </div>
+    </section>
     <!-- FOOTER REVEAL -->
     <footer class="footer-reveal">
         <div class="footer-logo">Voces con <span>Propósito</span></div>
@@ -1477,16 +1651,16 @@
     <script id="script-general">
         // 1. DETECCIÓN DE RENDIMIENTO (Agresiva para móviles antiguos)
         window.devicePerf = (() => {
-            const ram = navigator.deviceMemory || 4; 
+            const ram = navigator.deviceMemory || 4;
             const cores = navigator.hardwareConcurrency || 4;
             const isMobile = window.innerWidth <= 768;
-            
+
             return {
                 isMobile: isMobile,
                 // Consideramos gama baja a <= 2GB RAM o <= 4 núcleos en móviles
-                isLowEnd: isMobile && (ram <= 2 || cores <= 4), 
+                isLowEnd: isMobile && (ram <= 2 || cores <= 4),
                 // Dispositivos extremadamente limitados
-                isExtremeLowEnd: isMobile && (ram <= 1 || cores <= 2)
+                isExtremeLowEnd: isMobile && (ram <= 1 || cores <= 2),
             };
         })();
 
@@ -1494,7 +1668,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             gsap.registerPlugin(ScrollTrigger);
-            
+
             // Optimización global de GSAP
             gsap.config({ force3D: true, nullTargetWarn: false });
 
@@ -1518,7 +1692,7 @@
                 gsap.ticker.lagSmoothing(0, 0); // Evitar saltos si el CPU se laguea
             } else {
                 // Scroll suave nativo por CSS para celulares muy antiguos
-                document.documentElement.style.scrollBehavior = 'smooth';
+                document.documentElement.style.scrollBehavior = "smooth";
             }
         });
     </script>
@@ -1538,11 +1712,12 @@
 
             // FASE 2: Arrancar el resto cuando el celular esté desocupado
             const arrancarResto = () => {
-                const defer = window.requestIdleCallback || ((cb) => setTimeout(cb, 100));
+                const defer =
+                    window.requestIdleCallback || ((cb) => setTimeout(cb, 100));
                 defer(() => {
                     document.dispatchEvent(new Event("arrancarResto"));
                     // Limpieza de memoria
-                    if(preloader) preloader.remove(); 
+                    if (preloader) preloader.remove();
                 });
             };
 
@@ -1557,7 +1732,7 @@
                     preloader.style.display = "none";
                     if (window.lenis) window.lenis.start();
                     arrancarHero(); // Solo disparamos el Hero
-                    
+
                     // Retrasamos la carga del resto para priorizar la fluidez del inicio
                     setTimeout(arrancarResto, 500);
                 },
@@ -1568,13 +1743,26 @@
 
             tlPreloader
                 .to(".misti-loader-img", {
-                    opacity: 1, scale: 1, duration: dur, ease: "power3.out"
+                    opacity: 1,
+                    scale: 1,
+                    duration: dur,
+                    ease: "power3.out",
                 })
-                .to(".loader-logo", {
-                    opacity: 1, bottom: "30px", duration: 1, ease: "power2.out" // Cambiado a power2 para menos carga matemática que back
-                }, "-=0.5")
+                .to(
+                    ".loader-logo",
+                    {
+                        opacity: 1,
+                        bottom: "30px",
+                        duration: 1,
+                        ease: "power2.out", // Cambiado a power2 para menos carga matemática que back
+                    },
+                    "-=0.5",
+                )
                 .to(preloader, {
-                    opacity: 0, duration: 0.8, ease: "power2.inOut", delay: 0.5
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power2.inOut",
+                    delay: 0.5,
                 });
         });
     </script>
@@ -1590,7 +1778,9 @@
 
             // OPTIMIZACIÓN: Si es gama baja, NO calculamos parallax, solo lo mostramos estático.
             if (window.devicePerf.isLowEnd) {
-                gsap.set(["#hero-bg", "#hero-2026", "#hero-fg", "#hero-title"], { opacity: 1 });
+                gsap.set(["#hero-bg", "#hero-2026", "#hero-fg", "#hero-title"], {
+                    opacity: 1,
+                });
                 return; // Cortamos la ejecución aquí
             }
 
@@ -1627,13 +1817,29 @@
                     const moveFg = isMobile ? -5 : -15;
                     const moveTitle = isMobile ? -50 : -200;
 
-                    tlHero.to("#hero-bg", { yPercent: moveBg, ease: "none" }, 0)
-                          .to("#hero-2026", { yPercent: move2026, opacity: 0, ease: "none" }, 0)
-                          .to("#hero-fg", { yPercent: moveFg, ease: "none" }, 0)
-                          .to("#hero-title", { y: moveTitle, opacity: 0, scale: isMobile ? 0.95 : 0.9, ease: "none" }, 0);
+                    tlHero
+                        .to("#hero-bg", { yPercent: moveBg, ease: "none" }, 0)
+                        .to(
+                            "#hero-2026",
+                            { yPercent: move2026, opacity: 0, ease: "none" },
+                            0,
+                        )
+                        .to("#hero-fg", { yPercent: moveFg, ease: "none" }, 0)
+                        .to(
+                            "#hero-title",
+                            {
+                                y: moveTitle,
+                                opacity: 0,
+                                scale: isMobile ? 0.95 : 0.9,
+                                ease: "none",
+                            },
+                            0,
+                        );
 
-                    return () => { gsap.set("#hero > *", { clearProps: "all" }); }; // Limpieza de RAM al destruir
-                }
+                    return () => {
+                        gsap.set("#hero > *", { clearProps: "all" });
+                    }; // Limpieza de RAM al destruir
+                },
             );
         });
     </script>
@@ -1645,13 +1851,13 @@
     <script id="script-candidatos">
         // Escucha a arrancarResto, no afecta el inicio de la página
         document.addEventListener("arrancarResto", () => {
-            const track = document.getElementById('candidatos-track');
-            const pinSection = document.getElementById('candidatos-pin');
-            const progressBar = document.getElementById('candidato-progress');
-            
+            const track = document.getElementById("candidatos-track");
+            const pinSection = document.getElementById("candidatos-pin");
+            const progressBar = document.getElementById("candidato-progress");
+
             if (!track || !pinSection) return;
 
-            const panels = gsap.utils.toArray('.candidato-panel');
+            const panels = gsap.utils.toArray(".candidato-panel");
             const panelsLen = panels.length;
             let totalPhotos = 0;
 
@@ -1660,14 +1866,14 @@
             const panelImages = [];
 
             panels.forEach((panel) => {
-                const imgs = gsap.utils.toArray(panel.querySelectorAll('.cand-img'));
+                const imgs = gsap.utils.toArray(panel.querySelectorAll(".cand-img"));
                 panelImages.push(imgs);
                 totalPhotos += imgs.length;
-                
+
                 // CORRECCIÓN DEL PARPADEO/IMAGEN NEGRA:
                 // La primera imagen (i === 0) de CADA PANEL inicia visible.
                 // Las demás inician ocultas (autoAlpha: 0) liberando GPU al navegador.
-                gsap.set(imgs, { autoAlpha: (i) => i === 0 ? 1 : 0 });
+                gsap.set(imgs, { autoAlpha: (i) => (i === 0 ? 1 : 0) });
             });
 
             let currentPanelIdx = 0;
@@ -1675,20 +1881,21 @@
             let photosPassed = 0;
             let isCompleted = false;
 
-            const indicator = pinSection.querySelector('.swipe-indicator');
+            const indicator = pinSection.querySelector(".swipe-indicator");
 
             // OPTIMIZACIÓN MATEMÁTICA: Evitamos recalcular la división en cada toque
-            const progressMultiplier = totalPhotos > 0 ? (100 / totalPhotos) : 0;
+            const progressMultiplier = totalPhotos > 0 ? 100 / totalPhotos : 0;
 
             function updateProgress() {
                 if (progressBar) {
-                    progressBar.style.width = ((photosPassed + 1) * progressMultiplier) + "%";
+                    progressBar.style.width =
+                        (photosPassed + 1) * progressMultiplier + "%";
                 }
             }
             updateProgress();
 
             // MEJORA 2: Bloqueo agresivo sin salto
-            const lockScroll = () => { 
+            const lockScroll = () => {
                 const targetY = pinSection.offsetTop;
                 if (window.lenis) {
                     window.lenis.stop(); // Frena de golpe la inercia del scroll
@@ -1698,29 +1905,43 @@
                     window.scrollTo({ top: targetY, behavior: "instant" });
                 }
             };
-            
-            const unlockScroll = () => { 
-                if (window.lenis) window.lenis.start(); 
-                else document.body.style.overflow = ""; 
+
+            const unlockScroll = () => {
+                if (window.lenis) window.lenis.start();
+                else document.body.style.overflow = "";
             };
 
             ScrollTrigger.create({
                 trigger: pinSection,
                 // MEJORA 1: Atrapa el trigger un 10% ANTES de chocar con el borde para vencer la inercia
-                start: "top 10%", 
+                start: "top 10%",
                 fastScrollEnd: true,
                 onEnter: (self) => {
                     if (!isCompleted && self.direction === 1) {
                         lockScroll();
-                        
-                        if (indicator && window.devicePerf && !window.devicePerf.isExtremeLowEnd) {
-                            gsap.fromTo(indicator, { scale: 1 }, { scale: 1.05, duration: 0.6, yoyo: true, repeat: -1, ease: "sine.inOut" });
+
+                        if (
+                            indicator &&
+                            window.devicePerf &&
+                            !window.devicePerf.isExtremeLowEnd
+                        ) {
+                            gsap.fromTo(
+                                indicator,
+                                { scale: 1 },
+                                {
+                                    scale: 1.05,
+                                    duration: 0.6,
+                                    yoyo: true,
+                                    repeat: -1,
+                                    ease: "sine.inOut",
+                                },
+                            );
                         }
                     }
                 },
                 onLeaveBack: () => {
                     if (!isCompleted) unlockScroll();
-                }
+                },
             });
 
             const tapListener = (e) => {
@@ -1740,47 +1961,59 @@
                     currentImgIdx++;
                     photosPassed++;
                     updateProgress();
-                    
                 } else if (currentPanelIdx < panelsLen - 1) {
                     currentPanelIdx++;
                     currentImgIdx = 0;
                     photosPassed++;
 
-                    const isLowEnd = window.devicePerf ? window.devicePerf.isLowEnd : false;
+                    const isLowEnd = window.devicePerf
+                        ? window.devicePerf.isLowEnd
+                        : false;
 
                     // Deslizamiento lateral liviano
-                    gsap.to(track, { 
-                        x: `-${currentPanelIdx * 100}vw`, 
-                        duration: isLowEnd ? 0.3 : 0.5, 
-                        ease: "power1.out" 
+                    gsap.to(track, {
+                        x: `-${currentPanelIdx * 100}vw`,
+                        duration: isLowEnd ? 0.3 : 0.5,
+                        ease: "power1.out",
                     });
-                    
+
                     updateProgress();
-                    
                 } else {
                     isCompleted = true;
                     photosPassed++;
                     updateProgress();
-                    
+
                     unlockScroll();
-                    
+
                     if (indicator) {
-                        gsap.killTweensOf(indicator); 
-                        indicator.innerHTML = "¡Completado! Continúa bajando <span>👇</span>";
-                        gsap.to(indicator, { backgroundColor: "rgba(45, 57, 131, 0.9)", color: "white", duration: 0.3 });
+                        gsap.killTweensOf(indicator);
+                        indicator.innerHTML =
+                            "¡Completado! Continúa bajando <span>👇</span>";
+                        gsap.to(indicator, {
+                            backgroundColor: "rgba(45, 57, 131, 0.9)",
+                            color: "white",
+                            duration: 0.3,
+                        });
                     }
 
-                    const isLowEnd = window.devicePerf ? window.devicePerf.isLowEnd : false;
+                    const isLowEnd = window.devicePerf
+                        ? window.devicePerf.isLowEnd
+                        : false;
 
                     // MEJORA 3: Último toque con mayor impulso hacia el cronograma
                     // Calculamos un salto extra equivalente al 60% del alto de la pantalla (o 500px por defecto)
-                    const saltoExtra = window.innerHeight ? (window.innerHeight * 0.6) : 400;
+                    const saltoExtra = window.innerHeight
+                        ? window.innerHeight * 0.6
+                        : 400;
 
                     if (window.lenis) {
-                        window.lenis.scrollTo(pinSection.offsetTop + pinSection.offsetHeight + saltoExtra, { 
-                            duration: isLowEnd ? 0.6 : 1.2, // 0.6s hace que sea directo en móviles de gama baja
-                            ease: isLowEnd ? "power1.out" : "power2.out" 
-                        });
+                        window.lenis.scrollTo(
+                            pinSection.offsetTop + pinSection.offsetHeight + saltoExtra,
+                            {
+                                duration: isLowEnd ? 0.6 : 1.2, // 0.6s hace que sea directo en móviles de gama baja
+                                ease: isLowEnd ? "power1.out" : "power2.out",
+                            },
+                        );
                     } else {
                         // Fallback absoluto nativo con el salto extra
                         window.scrollBy({ top: saltoExtra, behavior: "smooth" });
@@ -1788,145 +2021,290 @@
                 }
             };
 
-            pinSection.addEventListener('click', tapListener, { passive: true });
+            pinSection.addEventListener("click", tapListener, { passive: true });
         });
     </script>
 
     <!-- =========================================================
          5. SCRIPT CRONOGRAMA
-         Animaciones condicionales según el hardware
+         Lazy Load Extremo, MatchMedia y Detección de Hardware
          ========================================================= -->
     <script id="script-cronograma">
         document.addEventListener("arrancarResto", () => {
+            const cronogramaSection = document.getElementById("cronograma");
             const timelineContainer = document.querySelector(".timeline-container");
-            if (!timelineContainer) return;
+            if (!cronogramaSection || !timelineContainer) return;
 
-            const bloquesEventos = gsap.utils.toArray(".evento-bloque");
-            const isLowEnd = window.devicePerf.isLowEnd;
+            // --- DETECCIÓN INTELIGENTE DE HARDWARE ---
+            const getMobileTier = () => {
+                // Si nuestro script base ya detectó que es una patata, confiamos en él
+                if (window.devicePerf && window.devicePerf.isExtremeLowEnd) return 'low';
 
-            bloquesEventos.forEach((bloque) => {
-                const grid = bloque.querySelector(".evento-contenido-grid");
-                const punto = bloque.querySelector(".evento-punto");
+                // Leemos núcleos y RAM (si el navegador lo permite)
+                const cores = navigator.hardwareConcurrency || 4;
+                const ram = navigator.deviceMemory || 4; // En GB
+                const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-                if (grid && !isLowEnd) {
-                    gsap.from(grid, {
-                        y: 30, // Reducido para mejor performance
-                        autoAlpha: 0,
-                        duration: 1,
-                        ease: "power1.out",
-                        scrollTrigger: { trigger: bloque, start: "top 80%" }, 
-                    });
-                } else if (grid && isLowEnd) {
-                    // Fallback ultra-ligero para celulares viejos
-                    gsap.set(grid, { autoAlpha: 1 });
+                // Si es un iPhone/iPad (su GPU suele ser excelente) o tiene +6 núcleos y +4GB RAM
+                if (isIOS || (cores >= 6 && ram >= 4)) {
+                    return 'high';
                 }
+                // Dispositivos más modestos o antiguos
+                return 'low';
+            };
 
-                if (punto && !window.devicePerf.isExtremeLowEnd) {
-                    gsap.to(punto, {
-                        scale: 1,
-                        duration: 0.4,
-                        ease: "back.out(1.2)",
-                        scrollTrigger: { trigger: bloque, start: "top 80%" },
-                    });
-                }
+            const initCronograma = () => {
+                let mm = gsap.matchMedia();
 
-                const galeria = bloque.querySelector(".evento-galeria");
-                const stickyContainer = bloque.querySelector(".evento-sticky-container");
+                mm.add({
+                    isDesktop: "(min-width: 769px)",
+                    isMobile: "(max-width: 768px)"
+                }, (context) => {
+                    let { isDesktop, isMobile } = context.conditions;
+                    const bloquesEventos = gsap.utils.toArray(".evento-bloque");
 
-                if (galeria && stickyContainer) {
-                    const imgs = galeria.querySelectorAll(".g-img");
-                    const imgsLen = imgs.length;
+                    // =========================================================
+                    // MODO CELULAR: Dividido en Alta y Baja Gama
+                    // =========================================================
+                    if (isMobile) {
+                        const tier = getMobileTier();
 
-                    gsap.set(imgs, { zIndex: (i) => imgsLen - i });
+                        bloquesEventos.forEach((bloque) => {
+                            const grid = bloque.querySelector(".evento-contenido-grid");
+                            const punto = bloque.querySelector(".evento-punto");
+                            const galeria = bloque.querySelector(".evento-galeria");
+                            const stickyContainer = bloque.querySelector(".evento-sticky-container");
+                            const imgs = galeria ? galeria.querySelectorAll(".g-img") : [];
 
-                    if (imgsLen > 0) {
-                        let tlImg = gsap.timeline({
-                            scrollTrigger: {
-                                trigger: galeria,
-                                start: "top 20%",
-                                end: () => "+=" + imgsLen * (isLowEnd ? 200 : 300), // Scroll más corto en low end
-                                pin: stickyContainer,
-                                anticipatePin: 1, 
-                                scrub: isLowEnd ? true : 1, // True = menos lag en scrub que un valor numérico en low end
-                            },
+                            // Animación suave de aparición general (Incluso gama baja la soporta)
+                            if (grid) {
+                                gsap.fromTo(grid,
+                                    { autoAlpha: 0, y: 20 },
+                                    { autoAlpha: 1, y: 0, duration: 0.8, ease: "sine.out", scrollTrigger: { trigger: bloque, start: "top 80%" } }
+                                );
+                            }
+                            if (punto) gsap.to(punto, { scale: 1, duration: 0.4, ease: "back.out(1.2)", scrollTrigger: { trigger: bloque, start: "top 80%" } });
+
+                            // CELULARES BUENOS: 2 Animaciones fluidas, scroll orgánico
+                            if (tier === 'high' && galeria && stickyContainer && imgs.length > 0) {
+                                const imgsLen = imgs.length;
+                                gsap.set(imgs, { zIndex: (i) => imgsLen - i });
+
+                                let tlImg = gsap.timeline({
+                                    scrollTrigger: {
+                                        trigger: galeria,
+                                        start: "top 25%",
+                                        end: () => "+=" + imgsLen * 300, // Menos recorrido que en PC para no cansar el dedo
+                                        pin: stickyContainer,
+                                        anticipatePin: 1,
+                                        scrub: 1.2 // <--- INERCIA FLUIDA (1.2 segundos de suavizado)
+                                    }
+                                });
+
+                                imgs.forEach((img, index) => {
+                                    const isLast = index === imgsLen - 1;
+                                    // Intercalamos solo 2 animaciones: Slide ligero o Fade simple
+                                    const animTipo = index % 2 === 0 ? "fade" : "slide";
+
+                                    // Entrada
+                                    if (index > 0) {
+                                        if (animTipo === "slide") tlImg.fromTo(img, { xPercent: 15, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 1, ease: "sine.inOut" }, index);
+                                        else tlImg.fromTo(img, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1, ease: "sine.inOut" }, index);
+                                    }
+                                    // Salida
+                                    if (!isLast) {
+                                        if (animTipo === "slide") tlImg.to(img, { xPercent: -15, autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                        else tlImg.to(img, { autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                    }
+                                });
+                            }
+                            // CELULARES HUMILDES: Cortamos matemáticas, mostramos solo la primera foto
+                            else if (tier === 'low' && imgs.length > 0) {
+                                gsap.set(imgs[0], { autoAlpha: 1, clearProps: "transform" });
+                                // Ocultamos las demás para no estorbar en el DOM ni causar reflows
+                                for (let i = 1; i < imgs.length; i++) { imgs[i].style.display = 'none'; }
+                            }
                         });
 
-                        imgs.forEach((img, index) => {
-                            const isLast = index === imgsLen - 1;
-                            const isZoom = img.classList.contains("img-zoom") && !isLowEnd;
-                            const isSlide = img.classList.contains("img-slide") && !isLowEnd;
-                            const isThanos = img.classList.contains("img-thanos") && !isLowEnd;
+                        gsap.set("#linea-centro", { autoAlpha: 0 }); // Línea desactivada en todo celular
+                        return; // Cortamos aquí para móviles
+                    }
 
-                            // Animaciones de Entrada
-                            if (index > 0) {
-                                if (isZoom) {
-                                    tlImg.fromTo(img, { scale: 1.2, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 1 }, index);
-                                } else if (isSlide) {
-                                    tlImg.fromTo(img, { xPercent: 50, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 1 }, index);
-                                } else {
-                                    tlImg.fromTo(img, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1 }, index);
-                                }
-                            }
+                    // =========================================================
+                    // MODO COMPUTADORA (isDesktop): Animaciones Premium y Orgánicas
+                    // =========================================================
+                    bloquesEventos.forEach((bloque) => {
+                        const grid = bloque.querySelector(".evento-contenido-grid");
+                        const punto = bloque.querySelector(".evento-punto");
+                        const galeria = bloque.querySelector(".evento-galeria");
+                        const stickyContainer = bloque.querySelector(".evento-sticky-container");
 
-                            // Animaciones de Salida
-                            if (!isLast) {
-                                if (isThanos) {
-                                    const cortes = img.querySelectorAll(".corte");
-                                    if (cortes.length === 2) {
-                                        tlImg.to(cortes[0], { xPercent: -20, yPercent: -20, rotation: -10, autoAlpha: 0, duration: 1 }, index + 1);
-                                        tlImg.to(cortes[1], { xPercent: 20, yPercent: 20, rotation: 10, autoAlpha: 0, duration: 1 }, index + 1);
+                        // Ease "power2.out" y mayor duración para elegancia
+                        if (grid) gsap.fromTo(grid, { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.2, ease: "power2.out", scrollTrigger: { trigger: bloque, start: "top 75%" } });
+                        if (punto) gsap.to(punto, { scale: 1, duration: 0.6, ease: "back.out(1.5)", scrollTrigger: { trigger: bloque, start: "top 75%" } });
+
+                        if (galeria && stickyContainer) {
+                            const imgs = galeria.querySelectorAll(".g-img");
+                            const imgsLen = imgs.length;
+
+                            gsap.set(imgs, { zIndex: (i) => imgsLen - i });
+
+                            if (imgsLen > 0) {
+                                let tlImg = gsap.timeline({
+                                    scrollTrigger: {
+                                        trigger: galeria,
+                                        start: "top 20%",
+                                        end: () => "+=" + imgsLen * 500, // Buen espacio para PC
+                                        pin: stickyContainer,
+                                        anticipatePin: 1,
+                                        scrub: 1.5, // <--- MAGIA ORGÁNICA: 1.5s de inercia al hacer scroll
                                     }
-                                } else if (isZoom) {
-                                    tlImg.to(img, { scale: 0.9, autoAlpha: 0, duration: 1 }, index + 1);
-                                } else if (isSlide) {
-                                    tlImg.to(img, { xPercent: -50, autoAlpha: 0, duration: 1 }, index + 1);
-                                } else {
-                                    tlImg.to(img, { autoAlpha: 0, duration: 1 }, index + 1);
-                                }
+                                });
+
+                                imgs.forEach((img, index) => {
+                                    const isLast = index === imgsLen - 1;
+                                    const isZoom = img.classList.contains("img-zoom");
+                                    const isSlide = img.classList.contains("img-slide");
+                                    const isThanos = img.classList.contains("img-thanos");
+
+                                    // Animaciones de Entrada (usando sine.inOut para transiciones sedosas)
+                                    if (index > 0) {
+                                        if (isZoom) tlImg.fromTo(img, { scale: 1.15, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 1, ease: "sine.inOut" }, index);
+                                        else if (isSlide) tlImg.fromTo(img, { xPercent: 30, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 1, ease: "sine.inOut" }, index);
+                                        else tlImg.fromTo(img, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1, ease: "sine.inOut" }, index);
+                                    }
+
+                                    // Animaciones de Salida
+                                    if (!isLast) {
+                                        if (isThanos) {
+                                            const cortes = img.querySelectorAll(".corte");
+                                            if (cortes.length === 2) {
+                                                tlImg.to(cortes[0], { xPercent: -15, yPercent: -15, rotation: -5, autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                                tlImg.to(cortes[1], { xPercent: 15, yPercent: 15, rotation: 5, autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                            } else {
+                                                tlImg.to(img, { autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                            }
+                                        } else if (isZoom) {
+                                            tlImg.to(img, { scale: 0.95, autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                        } else if (isSlide) {
+                                            tlImg.to(img, { xPercent: -30, autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                        } else {
+                                            tlImg.to(img, { autoAlpha: 0, duration: 1, ease: "sine.inOut" }, index + 1);
+                                        }
+                                    }
+                                });
                             }
+                        }
+                    });
+
+                    // Línea central animada con scrub fluido
+                    const lineaCentro = document.getElementById("linea-centro");
+                    if (lineaCentro) {
+                        gsap.set(lineaCentro, { autoAlpha: 1 });
+                        gsap.to(lineaCentro, {
+                            scrollTrigger: {
+                                trigger: timelineContainer,
+                                start: "top 50%",
+                                end: "bottom 50%",
+                                scrub: 1.5, // <--- inercia en la línea
+                            },
+                            height: "100%",
+                            ease: "none",
                         });
                     }
-                }
-            });
-
-            // Línea central ignorada en low-end para ahorrar reflows constantes
-            const lineaCentro = document.getElementById("linea-centro");
-            if (lineaCentro && !isLowEnd) {
-                gsap.to(lineaCentro, {
-                    scrollTrigger: {
-                        trigger: timelineContainer,
-                        start: "top 50%",
-                        end: "bottom 50%",
-                        scrub: true,
-                    },
-                    height: "100%",
-                    ease: "none"
                 });
-            }
+            };
+
+            // LAZY LOAD: Cargar al acercarse
+            const observerOptions = {
+                root: null,
+                rootMargin: "800px 0px", // Precarga antes de visualizar
+                threshold: 0
+            };
+
+            const cronogramaObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        initCronograma();
+                        observer.unobserve(entry.target);
+                        setTimeout(() => ScrollTrigger.refresh(), 300);
+                    }
+                });
+            }, observerOptions);
+
+            cronogramaObserver.observe(cronogramaSection);
         });
     </script>
 
     <!-- =========================================================
-         6. SCRIPT SPOTLIGHT
+         6. SCRIPT SPOTLIGHT (Solo Escritorio Fino)
          ========================================================= -->
     <script id="script-spotlight">
         document.addEventListener("arrancarResto", () => {
             const cronograma = document.getElementById("cronograma");
-            
-            // Solo activar en PCs (donde el mouse es 'fine') y evitamos móviles donde se simule el hover
-            if (cronograma && window.matchMedia("(pointer: fine)").matches && !window.devicePerf.isLowEnd) {
-                let rafId = null;
 
-                cronograma.addEventListener("mousemove", (e) => {
-                    if (!rafId) {
-                        rafId = requestAnimationFrame(() => {
-                            const rect = cronograma.getBoundingClientRect();
-                            cronograma.style.setProperty("--mouse-x", `${((e.clientX - rect.left) / rect.width) * 100}%`);
-                            cronograma.style.setProperty("--mouse-y", `${((e.clientY - rect.top) / rect.height) * 100}%`);
-                            rafId = null;
-                        });
+            if (
+                cronograma &&
+                window.matchMedia("(min-width: 769px) and (pointer: fine)").matches
+            ) {
+                const initSpotlight = () => {
+                    let rafId = null;
+                    cronograma.addEventListener("mousemove", (e) => {
+                        if (!rafId) {
+                            rafId = requestAnimationFrame(() => {
+                                const rect = cronograma.getBoundingClientRect();
+                                cronograma.style.setProperty("--mouse-x", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+                                cronograma.style.setProperty("--mouse-y", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+                                rafId = null;
+                            });
+                        }
+                    }, { passive: true });
+                };
+
+                const spotObserver = new IntersectionObserver((entries, obs) => {
+                    if (entries[0].isIntersecting) {
+                        initSpotlight();
+                        obs.disconnect();
                     }
-                }, { passive: true });
+                }, { rootMargin: "500px 0px" });
+
+                spotObserver.observe(cronograma);
+            }
+        });
+    </script>
+
+    <!-- Script Corregido -->
+    <script>
+        // Usamos el mismo evento "arrancarResto" que usa tu cronograma
+        document.addEventListener("arrancarResto", () => {
+            if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+
+                // gsap.from() hace que si el script funciona, los oculte y los anime. 
+                // Si el script falla, simplemente se quedarán visibles.
+                gsap.from(".descargas-titulo", {
+                    scrollTrigger: {
+                        trigger: "#descargables",
+                        start: "top 95%",
+                    },
+                    y: 15,
+                    autoAlpha: 0,
+                    duration: 0.6,
+                    ease: "power2.out"
+                });
+
+                gsap.from(".btn-descarga", {
+                    scrollTrigger: {
+                        trigger: "#descargables",
+                        start: "top 92%",
+                    },
+                    y: 25,
+                    autoAlpha: 0,
+                    duration: 0.7,
+                    stagger: 0.1,
+                    ease: "back.out(1.2)"
+                });
+
+                ScrollTrigger.refresh();
             }
         });
     </script>
